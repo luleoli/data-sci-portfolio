@@ -85,6 +85,7 @@ def run_models(df, dataset, target, models=models_list):
 
         model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
+        
         mse = mean_squared_error(y_test, y_pred)
         end_time = time.time()
         training_time = end_time - start_time
