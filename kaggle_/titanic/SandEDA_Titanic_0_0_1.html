@@ -1,0 +1,6130 @@
+!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Titanic_0_0_1</title>
+  <style>
+    :root {
+      --primary-color: #90a7bd8c;
+      --secondary-color: #788288;
+      --accent-color: #36393b;
+      --text-title-color: #333131;
+      --text-color: #363333;
+      --bg-color: #f8f9f9;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      grid-template-areas:
+        "header"
+        "main"
+        "footer";
+    }
+
+    header {
+      grid-area: header;
+      background-color: var(--primary-color);
+      color: var(--text-title-color);
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    main {
+      grid-area: main;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    footer {
+      grid-area: footer;
+      background-color: var(--primary-color);
+      color: var(--text-title-color);
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    table {
+      margin-bottom: 1rem;
+      margin-top: 1rem;
+      margin-left: 5px;
+      margin-right: 5px;
+      border-collapse: collapse;
+      min-width: 200px;
+      max-width: 300px;
+      width: 100%;
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      padding: 0.4rem;
+      text-align: left;
+    }
+
+    thead {
+      background-color: var(--primary-color);
+      color: var(--text-color);
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: var(--bg-color);
+    }
+
+    tbody tr:nth-child(odd) {
+      background-color: #ffffff;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: left;
+    }
+
+    .container-vertical {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .container-quintil {
+      display: grid;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+    }
+
+
+    p {
+      margin-bottom: 1rem;
+      margin-top: 1rem;
+    }
+
+
+    .card {
+      background-color: var(--bg-color);
+      border: 1px solid var(--primary-color);
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h2>Exploratory Data Analysis: Titanic_0_0_1</h2>
+  </header>
+  <button id="scrollToTopBtn"
+    style="display: none; position: fixed; bottom: 20px; right: 20px; z-index: 99; font-size: 18px; border: none; outline: none; background-color: var(--primary-color); color: white; cursor: pointer; padding: 15px; border-radius: 4px;">Top</button>
+  <script>
+    const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+    window.onscroll = function () {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        scrollToTopBtn.style.display = "block";
+      } else {
+        scrollToTopBtn.style.display = "none";
+      }
+    };
+
+    scrollToTopBtn.addEventListener("click", function () {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    });
+  </script>
+  <main>
+    <section>
+
+      <h2>Overview</h2>
+      <div class="container">
+
+        <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Description</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>number_of_rows</td>
+      <td>891</td>
+    </tr>
+    <tr>
+      <td>number_of_columns</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <td>number_of_cells</td>
+      <td>11,583</td>
+    </tr>
+    <tr>
+      <td>number_of_missing</td>
+      <td>866</td>
+    </tr>
+    <tr>
+      <td>number_of_unique_types</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>number_of_zeros</td>
+      <td>1,850</td>
+    </tr>
+    <tr>
+      <td>memory_usage_in_megabytes</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+
+        <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>description</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>missing 100% -&gt; 0%</td>
+      <td>[0, 1, 1, 1, 10]</td>
+    </tr>
+    <tr>
+      <td>zero 100% -&gt; 0%</td>
+      <td>[0, 1, 3, 3, 9]</td>
+    </tr>
+    <tr>
+      <td>number_of_continuous</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <td>number_of_not_continuous</td>
+      <td>6</td>
+    </tr>
+  </tbody>
+</table>
+
+
+        <div class=".container-vertical">
+          <div class="card">
+            Target Name: <b>Survived</b>
+          </div>
+          <div class="card">
+            Target: <b>38.38</b>
+          </div>
+
+          <div id="target_graph"></div>
+          <script>
+            const spec_tgt_graph = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "title": {
+      "fontSize": 10
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-98b31636a7ae2f9b273f2d2ec6cbccff"
+  },
+  "datasets": {
+    "data-98b31636a7ae2f9b273f2d2ec6cbccff": [
+      {
+        "%": 37.95,
+        "Date": "202309"
+      },
+      {
+        "%": 36.97,
+        "Date": "202306"
+      },
+      {
+        "%": 37.78,
+        "Date": "202307"
+      },
+      {
+        "%": 40.77,
+        "Date": "202308"
+      }
+    ]
+  },
+  "encoding": {
+    "x": {
+      "field": "Date",
+      "sort": "ascending",
+      "type": "nominal"
+    },
+    "y": {
+      "field": "%",
+      "type": "quantitative"
+    }
+  },
+  "height": 100,
+  "mark": {
+    "type": "bar"
+  },
+  "width": 100
+};
+            const embedOpt_tgt_graph = { "actions": false };
+            vegaEmbed('#target_graph', spec_tgt_graph, embedOpt_tgt_graph).catch(console.error);
+          </script>
+
+        </div>
+      </div>
+
+      <h2>Variables</h2>
+
+      <div class="container">
+
+        <div class=".container-vertical">
+
+          <p><b>Fillment</b></p>
+
+          <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Variable</th>
+      <th>Missing</th>
+      <th>Missing (%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Cabin</td>
+      <td>77</td>
+      <td>77.10%</td>
+    </tr>
+    <tr>
+      <td>Age</td>
+      <td>20</td>
+      <td>19.87%</td>
+    </tr>
+    <tr>
+      <td>Embarked</td>
+      <td>0</td>
+      <td>0.22%</td>
+    </tr>
+    <tr>
+      <td>Survived</td>
+      <td>0</td>
+      <td>0.00%</td>
+    </tr>
+    <tr>
+      <td>PassengerId</td>
+      <td>0</td>
+      <td>0.00%</td>
+    </tr>
+  </tbody>
+</table>
+
+          <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Variable</th>
+      <th>Zero</th>
+      <th>Zero (%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Parch</td>
+      <td>76</td>
+      <td>76.09%</td>
+    </tr>
+    <tr>
+      <td>SibSp</td>
+      <td>68</td>
+      <td>68.24%</td>
+    </tr>
+    <tr>
+      <td>Survived</td>
+      <td>62</td>
+      <td>61.62%</td>
+    </tr>
+    <tr>
+      <td>Fare</td>
+      <td>2</td>
+      <td>1.68%</td>
+    </tr>
+    <tr>
+      <td>PassengerId</td>
+      <td>0</td>
+      <td>0.00%</td>
+    </tr>
+  </tbody>
+</table>
+        </div>
+
+
+        <div class=".container-vertical">
+          <p><b>Estability</b></p>
+          <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Variable</th>
+      <th>KS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Fare</td>
+      <td>0.065</td>
+    </tr>
+    <tr>
+      <td>Parch</td>
+      <td>0.049</td>
+    </tr>
+    <tr>
+      <td>Pclass</td>
+      <td>0.059</td>
+    </tr>
+    <tr>
+      <td>Age</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <td>SibSp</td>
+      <td>0.044</td>
+    </tr>
+  </tbody>
+</table>
+
+          <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Variable</th>
+      <th>PSI</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Cabin</td>
+      <td>0.132</td>
+    </tr>
+    <tr>
+      <td>Fare</td>
+      <td>0.123</td>
+    </tr>
+    <tr>
+      <td>Age</td>
+      <td>0.117</td>
+    </tr>
+    <tr>
+      <td>SibSp</td>
+      <td>0.080</td>
+    </tr>
+    <tr>
+      <td>Parch</td>
+      <td>0.079</td>
+    </tr>
+  </tbody>
+</table>
+        </div>
+
+        <div class=".container-vertical">
+          <p><b>Potencial</b></p>
+
+          <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Variable</th>
+      <th>IV</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Sex</td>
+      <td>1.245</td>
+    </tr>
+    <tr>
+      <td>Cabin</td>
+      <td>1.175</td>
+    </tr>
+    <tr>
+      <td>Age</td>
+      <td>0.280</td>
+    </tr>
+    <tr>
+      <td>SibSp</td>
+      <td>0.175</td>
+    </tr>
+    <tr>
+      <td>PassengerId</td>
+      <td>0.166</td>
+    </tr>
+  </tbody>
+</table>
+
+          <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Variable</th>
+      <th>MI</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Sex</td>
+      <td>0.140</td>
+    </tr>
+    <tr>
+      <td>Age</td>
+      <td>0.060</td>
+    </tr>
+    <tr>
+      <td>Fare</td>
+      <td>0.044</td>
+    </tr>
+    <tr>
+      <td>Name</td>
+      <td>0.041</td>
+    </tr>
+    <tr>
+      <td>Cabin</td>
+      <td>0.008</td>
+    </tr>
+  </tbody>
+</table>
+
+        </div>
+      </div>
+
+      <h2>Especific Variables</h2>
+
+
+      
+
+      <div class="container">
+
+        <h3> Name </h3>
+
+        <div class=".container-vertical">
+
+          <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Description</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>variable_type</td>
+      <td>object</td>
+    </tr>
+    <tr>
+      <td>number_of_missing</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>number_of_unique_values</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>number_per_values</td>
+      <td>{'Other': 882, 'Braund, Mr. Owen Harris': 1, 'Cumings, Mrs. John Bradley (Florence Briggs Thayer)': 1, 'Heikkinen, Miss. Laina': 1, 'Allen, Mr. William Henry': 1, 'Futrelle, Mrs. Jacques Heath (Lily May Peel)': 1, 'Moran, Mr. James': 1, 'McCarthy, Mr. Timothy J': 1, 'Palsson, Master. Gosta Leonard': 1, 'Johnson, Mrs. Oscar W (Elisabeth Vilhelmina Berg)': 1}</td>
+    </tr>
+    <tr>
+      <td>unique_values</td>
+      <td>['Braund, Mr. Owen Harris', 'Cumings, Mrs. John Bradley (Florence Briggs Thayer)', 'Heikkinen, Miss. Laina', 'Futrelle, Mrs. Jacques Heath (Lily May Peel)', 'Allen, Mr. William Henry', 'Moran, Mr. James', 'McCarthy, Mr. Timothy J', 'Palsson, Master. Gosta Leonard', 'Johnson, Mrs. Oscar W (Elisabeth Vilhelmina Berg)', 'Other']</td>
+    </tr>
+  </tbody>
+</table>
+
+          <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Description</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>min</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>5%</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>25%</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>50%</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>75%</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>95%</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>max</td>
+      <td>cat feat</td>
+    </tr>
+  </tbody>
+</table>
+
+        </div>
+
+        <div class=".container-vertical">
+
+          <div id="hist_graph_Name"></div>
+          <script>
+            const spec_hist_Name = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "title": {
+      "fontSize": 14
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-fb1a6338b719c84d3b1d604dd271eae8"
+  },
+  "datasets": {
+    "data-fb1a6338b719c84d3b1d604dd271eae8": [
+      {
+        "Count": 1,
+        "Interval": "Allen, Mr. William Henry"
+      },
+      {
+        "Count": 1,
+        "Interval": "Braund, Mr. Owen Harris"
+      },
+      {
+        "Count": 1,
+        "Interval": "Cumings, Mrs. John Bradley (Florence Briggs Thayer)"
+      },
+      {
+        "Count": 1,
+        "Interval": "Futrelle, Mrs. Jacques Heath (Lily May Peel)"
+      },
+      {
+        "Count": 1,
+        "Interval": "Heikkinen, Miss. Laina"
+      },
+      {
+        "Count": 1,
+        "Interval": "Johnson, Mrs. Oscar W (Elisabeth Vilhelmina Berg)"
+      },
+      {
+        "Count": 1,
+        "Interval": "McCarthy, Mr. Timothy J"
+      },
+      {
+        "Count": 1,
+        "Interval": "Moran, Mr. James"
+      },
+      {
+        "Count": 882,
+        "Interval": "Other"
+      },
+      {
+        "Count": 1,
+        "Interval": "Palsson, Master. Gosta Leonard"
+      }
+    ]
+  },
+  "encoding": {
+    "x": {
+      "axis": {
+        "labelFontSize": 9,
+        "labelOverlap": true,
+        "labels": true
+      },
+      "field": "Interval",
+      "sort": null,
+      "title": "",
+      "type": "nominal"
+    },
+    "y": {
+      "axis": {
+        "labels": false
+      },
+      "field": "Count",
+      "title": "Qty",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_1",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Histogram",
+  "width": 350
+};
+            spec_hist_Name.mark = { type: "bar", width: 15 }; // Set bar width
+            const embedOpt_hist_Name = { "actions": false };
+            vegaEmbed('#hist_graph_Name', spec_hist_Name, embedOpt_hist_Name).catch(console.error);
+          </script>
+
+          <br>
+
+          <div id="decil_graph_Name"></div>
+          <script>
+            const spec_decil_Name = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "title": {
+      "fontSize": 12
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-a5123c3526a522fdb3c3b381ee44039e"
+  },
+  "datasets": {
+    "data-a5123c3526a522fdb3c3b381ee44039e": [
+      {
+        "Decil": "Allen, Mr. William Henry",
+        "Target": 0.0
+      },
+      {
+        "Decil": "Braund, Mr. Owen Harris",
+        "Target": 0.0
+      },
+      {
+        "Decil": "Cumings, Mrs. John Bradley (Florence Briggs Thayer)",
+        "Target": 1.0
+      },
+      {
+        "Decil": "Futrelle, Mrs. Jacques Heath (Lily May Peel)",
+        "Target": 1.0
+      },
+      {
+        "Decil": "Heikkinen, Miss. Laina",
+        "Target": 1.0
+      },
+      {
+        "Decil": "Johnson, Mrs. Oscar W (Elisabeth Vilhelmina Berg)",
+        "Target": 1.0
+      },
+      {
+        "Decil": "McCarthy, Mr. Timothy J",
+        "Target": 0.0
+      },
+      {
+        "Decil": "Moran, Mr. James",
+        "Target": 0.0
+      },
+      {
+        "Decil": "Other",
+        "Target": 0.38
+      },
+      {
+        "Decil": "Palsson, Master. Gosta Leonard",
+        "Target": 0.0
+      }
+    ]
+  },
+  "encoding": {
+    "x": {
+      "axis": {
+        "labelFontSize": 9,
+        "labelOverlap": true,
+        "labels": true
+      },
+      "field": "Decil",
+      "sort": null,
+      "title": "Decil",
+      "type": "nominal"
+    },
+    "y": {
+      "axis": {
+        "labels": false
+      },
+      "field": "Target",
+      "title": "% Target",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_2",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Target mean per Decil",
+  "width": 350
+};
+            spec_decil_Name.mark = { type: "bar", width: 20 }; 
+            spec_decil_Name.layer = [
+              {
+                mark: { type: "bar", width: 20 },
+                encoding: spec_decil_Name.encoding
+              },
+              {
+                mark: { type: "text", dy: -5 }, // Position the text above the bar
+                encoding: {
+                  text: { field: "Target", type: "quantitative" }, // Replace "value" with the field name for your bar values
+                  x: spec_decil_Name.encoding.x,
+                  y: spec_decil_Name.encoding.y
+                }
+              }
+            ];
+            const embedOpt_decil_Name = { "actions": false };
+            vegaEmbed('#decil_graph_Name', spec_decil_Name, embedOpt_decil_Name).catch(console.error);
+          </script>
+        </div>
+      </div>
+
+      <div class="container">
+
+
+        <div id="hist_time_graph_Name"></div>
+        <script>
+          const spec_hist_time_Name = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "legend": {
+      "orient": "top"
+    },
+    "title": {
+      "fontSize": 14
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-d869a46c2f3a3591eccadf55e85556af"
+  },
+  "datasets": {
+    "data-d869a46c2f3a3591eccadf55e85556af": [
+      {
+        "Count": 1.0,
+        "Date": "202309",
+        "Percentage": 0.5128205128205128,
+        "Quintile": "Braund, Mr. Owen Harris"
+      },
+      {
+        "Count": null,
+        "Date": "202306",
+        "Percentage": null,
+        "Quintile": "Braund, Mr. Owen Harris"
+      },
+      {
+        "Count": null,
+        "Date": "202307",
+        "Percentage": null,
+        "Quintile": "Braund, Mr. Owen Harris"
+      },
+      {
+        "Count": null,
+        "Date": "202308",
+        "Percentage": null,
+        "Quintile": "Braund, Mr. Owen Harris"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202309",
+        "Percentage": 0.5128205128205128,
+        "Quintile": "Cumings, Mrs. John Bradley (Florence Briggs Thayer)"
+      },
+      {
+        "Count": null,
+        "Date": "202306",
+        "Percentage": null,
+        "Quintile": "Cumings, Mrs. John Bradley (Florence Briggs Thayer)"
+      },
+      {
+        "Count": null,
+        "Date": "202307",
+        "Percentage": null,
+        "Quintile": "Cumings, Mrs. John Bradley (Florence Briggs Thayer)"
+      },
+      {
+        "Count": null,
+        "Date": "202308",
+        "Percentage": null,
+        "Quintile": "Cumings, Mrs. John Bradley (Florence Briggs Thayer)"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202309",
+        "Percentage": 0.5128205128205128,
+        "Quintile": "Palsson, Master. Gosta Leonard"
+      },
+      {
+        "Count": null,
+        "Date": "202306",
+        "Percentage": null,
+        "Quintile": "Palsson, Master. Gosta Leonard"
+      },
+      {
+        "Count": null,
+        "Date": "202307",
+        "Percentage": null,
+        "Quintile": "Palsson, Master. Gosta Leonard"
+      },
+      {
+        "Count": null,
+        "Date": "202308",
+        "Percentage": null,
+        "Quintile": "Palsson, Master. Gosta Leonard"
+      },
+      {
+        "Count": 192.0,
+        "Date": "202309",
+        "Percentage": 98.46153846153847,
+        "Quintile": "Other"
+      },
+      {
+        "Count": 235.0,
+        "Date": "202306",
+        "Percentage": 98.73949579831933,
+        "Quintile": "Other"
+      },
+      {
+        "Count": 222.0,
+        "Date": "202307",
+        "Percentage": 98.66666666666667,
+        "Quintile": "Other"
+      },
+      {
+        "Count": 233.0,
+        "Date": "202308",
+        "Percentage": 100.0,
+        "Quintile": "Other"
+      },
+      {
+        "Count": null,
+        "Date": "202309",
+        "Percentage": null,
+        "Quintile": "Heikkinen, Miss. Laina"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202306",
+        "Percentage": 0.42016806722689076,
+        "Quintile": "Heikkinen, Miss. Laina"
+      },
+      {
+        "Count": null,
+        "Date": "202307",
+        "Percentage": null,
+        "Quintile": "Heikkinen, Miss. Laina"
+      },
+      {
+        "Count": null,
+        "Date": "202308",
+        "Percentage": null,
+        "Quintile": "Heikkinen, Miss. Laina"
+      },
+      {
+        "Count": null,
+        "Date": "202309",
+        "Percentage": null,
+        "Quintile": "Futrelle, Mrs. Jacques Heath (Lily May Peel)"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202306",
+        "Percentage": 0.42016806722689076,
+        "Quintile": "Futrelle, Mrs. Jacques Heath (Lily May Peel)"
+      },
+      {
+        "Count": null,
+        "Date": "202307",
+        "Percentage": null,
+        "Quintile": "Futrelle, Mrs. Jacques Heath (Lily May Peel)"
+      },
+      {
+        "Count": null,
+        "Date": "202308",
+        "Percentage": null,
+        "Quintile": "Futrelle, Mrs. Jacques Heath (Lily May Peel)"
+      },
+      {
+        "Count": null,
+        "Date": "202309",
+        "Percentage": null,
+        "Quintile": "Moran, Mr. James"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202306",
+        "Percentage": 0.42016806722689076,
+        "Quintile": "Moran, Mr. James"
+      },
+      {
+        "Count": null,
+        "Date": "202307",
+        "Percentage": null,
+        "Quintile": "Moran, Mr. James"
+      },
+      {
+        "Count": null,
+        "Date": "202308",
+        "Percentage": null,
+        "Quintile": "Moran, Mr. James"
+      },
+      {
+        "Count": null,
+        "Date": "202309",
+        "Percentage": null,
+        "Quintile": "Allen, Mr. William Henry"
+      },
+      {
+        "Count": null,
+        "Date": "202306",
+        "Percentage": null,
+        "Quintile": "Allen, Mr. William Henry"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202307",
+        "Percentage": 0.4444444444444444,
+        "Quintile": "Allen, Mr. William Henry"
+      },
+      {
+        "Count": null,
+        "Date": "202308",
+        "Percentage": null,
+        "Quintile": "Allen, Mr. William Henry"
+      },
+      {
+        "Count": null,
+        "Date": "202309",
+        "Percentage": null,
+        "Quintile": "McCarthy, Mr. Timothy J"
+      },
+      {
+        "Count": null,
+        "Date": "202306",
+        "Percentage": null,
+        "Quintile": "McCarthy, Mr. Timothy J"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202307",
+        "Percentage": 0.4444444444444444,
+        "Quintile": "McCarthy, Mr. Timothy J"
+      },
+      {
+        "Count": null,
+        "Date": "202308",
+        "Percentage": null,
+        "Quintile": "McCarthy, Mr. Timothy J"
+      },
+      {
+        "Count": null,
+        "Date": "202309",
+        "Percentage": null,
+        "Quintile": "Johnson, Mrs. Oscar W (Elisabeth Vilhelmina Berg)"
+      },
+      {
+        "Count": null,
+        "Date": "202306",
+        "Percentage": null,
+        "Quintile": "Johnson, Mrs. Oscar W (Elisabeth Vilhelmina Berg)"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202307",
+        "Percentage": 0.4444444444444444,
+        "Quintile": "Johnson, Mrs. Oscar W (Elisabeth Vilhelmina Berg)"
+      },
+      {
+        "Count": null,
+        "Date": "202308",
+        "Percentage": null,
+        "Quintile": "Johnson, Mrs. Oscar W (Elisabeth Vilhelmina Berg)"
+      }
+    ]
+  },
+  "encoding": {
+    "color": {
+      "field": "Quintile",
+      "title": "Legend",
+      "type": "nominal"
+    },
+    "x": {
+      "field": "Date",
+      "title": "Date",
+      "type": "nominal"
+    },
+    "y": {
+      "field": "Percentage",
+      "stack": "normalize",
+      "title": "Percentage",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_3",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Distribution Over Time",
+  "width": 800
+};
+          const embedOpt_hist_time_Name = { "actions": false };
+          vegaEmbed('#hist_time_graph_Name', spec_hist_time_Name, embedOpt_hist_time_Name).catch(console.error);
+        </script>
+
+      </div>
+      
+
+      <div class="container">
+
+        <h3> Fare </h3>
+
+        <div class=".container-vertical">
+
+          <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Description</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>variable_type</td>
+      <td>float64</td>
+    </tr>
+    <tr>
+      <td>number_of_unique_values</td>
+      <td>248</td>
+    </tr>
+    <tr>
+      <td>number_of_missing</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>number_of_zeros</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <td>sum</td>
+      <td>28,694</td>
+    </tr>
+    <tr>
+      <td>mean</td>
+      <td>32</td>
+    </tr>
+    <tr>
+      <td>median</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <td>std</td>
+      <td>50</td>
+    </tr>
+  </tbody>
+</table>
+
+          <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Description</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>min</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>5%</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <td>25%</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>50%</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <td>75%</td>
+      <td>31</td>
+    </tr>
+    <tr>
+      <td>95%</td>
+      <td>112</td>
+    </tr>
+    <tr>
+      <td>max</td>
+      <td>512</td>
+    </tr>
+  </tbody>
+</table>
+
+        </div>
+
+        <div class=".container-vertical">
+
+          <div id="hist_graph_Fare"></div>
+          <script>
+            const spec_hist_Fare = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "title": {
+      "fontSize": 14
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-d53c3e280ede017d7317788d87ea77cc"
+  },
+  "datasets": {
+    "data-d53c3e280ede017d7317788d87ea77cc": [
+      {
+        "Count": 337,
+        "Interval": "-0.5"
+      },
+      {
+        "Count": 182,
+        "Interval": "10.2"
+      },
+      {
+        "Count": 147,
+        "Interval": "20.5"
+      },
+      {
+        "Count": 50,
+        "Interval": "30.7"
+      },
+      {
+        "Count": 16,
+        "Interval": "41.0"
+      },
+      {
+        "Count": 39,
+        "Interval": "51.2"
+      },
+      {
+        "Count": 18,
+        "Interval": "61.5"
+      },
+      {
+        "Count": 29,
+        "Interval": "71.7"
+      },
+      {
+        "Count": 18,
+        "Interval": "82.0"
+      },
+      {
+        "Count": 2,
+        "Interval": "92.2"
+      },
+      {
+        "Count": 8,
+        "Interval": "102.5"
+      },
+      {
+        "Count": 7,
+        "Interval": "112.7"
+      },
+      {
+        "Count": 0,
+        "Interval": "123.0"
+      },
+      {
+        "Count": 7,
+        "Interval": "133.2"
+      },
+      {
+        "Count": 9,
+        "Interval": "143.5"
+      },
+      {
+        "Count": 0,
+        "Interval": "153.7"
+      },
+      {
+        "Count": 2,
+        "Interval": "163.9"
+      },
+      {
+        "Count": 0,
+        "Interval": "174.2"
+      },
+      {
+        "Count": 0,
+        "Interval": "184.4"
+      },
+      {
+        "Count": 0,
+        "Interval": "194.7"
+      },
+      {
+        "Count": 4,
+        "Interval": "204.9"
+      },
+      {
+        "Count": 1,
+        "Interval": "215.2"
+      },
+      {
+        "Count": 4,
+        "Interval": "225.4"
+      },
+      {
+        "Count": 0,
+        "Interval": "235.7"
+      },
+      {
+        "Count": 2,
+        "Interval": "245.9"
+      },
+      {
+        "Count": 6,
+        "Interval": "256.2"
+      },
+      {
+        "Count": 0,
+        "Interval": "266.4"
+      },
+      {
+        "Count": 0,
+        "Interval": "276.7"
+      },
+      {
+        "Count": 0,
+        "Interval": "286.9"
+      },
+      {
+        "Count": 0,
+        "Interval": "297.2"
+      },
+      {
+        "Count": 0,
+        "Interval": "307.4"
+      },
+      {
+        "Count": 0,
+        "Interval": "317.6"
+      },
+      {
+        "Count": 0,
+        "Interval": "327.9"
+      },
+      {
+        "Count": 0,
+        "Interval": "338.1"
+      },
+      {
+        "Count": 0,
+        "Interval": "348.4"
+      },
+      {
+        "Count": 0,
+        "Interval": "358.6"
+      },
+      {
+        "Count": 0,
+        "Interval": "368.9"
+      },
+      {
+        "Count": 0,
+        "Interval": "379.1"
+      },
+      {
+        "Count": 0,
+        "Interval": "389.4"
+      },
+      {
+        "Count": 0,
+        "Interval": "399.6"
+      },
+      {
+        "Count": 0,
+        "Interval": "409.9"
+      },
+      {
+        "Count": 0,
+        "Interval": "420.1"
+      },
+      {
+        "Count": 0,
+        "Interval": "430.4"
+      },
+      {
+        "Count": 0,
+        "Interval": "440.6"
+      },
+      {
+        "Count": 0,
+        "Interval": "450.9"
+      },
+      {
+        "Count": 0,
+        "Interval": "461.1"
+      },
+      {
+        "Count": 0,
+        "Interval": "471.3"
+      },
+      {
+        "Count": 0,
+        "Interval": "481.6"
+      },
+      {
+        "Count": 0,
+        "Interval": "491.8"
+      },
+      {
+        "Count": 3,
+        "Interval": "502.1"
+      }
+    ]
+  },
+  "encoding": {
+    "x": {
+      "axis": {
+        "labelFontSize": 9,
+        "labelOverlap": true,
+        "labels": true
+      },
+      "field": "Interval",
+      "sort": null,
+      "title": "",
+      "type": "nominal"
+    },
+    "y": {
+      "axis": {
+        "labels": false
+      },
+      "field": "Count",
+      "title": "Qty",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_4",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Histogram",
+  "width": 350
+};
+            spec_hist_Fare.mark = { type: "bar", width: 15 }; // Set bar width
+            const embedOpt_hist_Fare = { "actions": false };
+            vegaEmbed('#hist_graph_Fare', spec_hist_Fare, embedOpt_hist_Fare).catch(console.error);
+          </script>
+
+          <br>
+
+          <div id="decil_graph_Fare"></div>
+          <script>
+            const spec_decil_Fare = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "title": {
+      "fontSize": 12
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-5c0e3f80d62f9711bb18edb111d6e723"
+  },
+  "datasets": {
+    "data-5c0e3f80d62f9711bb18edb111d6e723": [
+      {
+        "Decil": 0,
+        "Target": 0.14
+      },
+      {
+        "Decil": 1,
+        "Target": 0.3
+      },
+      {
+        "Decil": 2,
+        "Target": 0.18
+      },
+      {
+        "Decil": 3,
+        "Target": 0.23
+      },
+      {
+        "Decil": 4,
+        "Target": 0.43
+      },
+      {
+        "Decil": 5,
+        "Target": 0.42
+      },
+      {
+        "Decil": 6,
+        "Target": 0.52
+      },
+      {
+        "Decil": 7,
+        "Target": 0.37
+      },
+      {
+        "Decil": 8,
+        "Target": 0.53
+      },
+      {
+        "Decil": 9,
+        "Target": 0.76
+      }
+    ]
+  },
+  "encoding": {
+    "x": {
+      "axis": {
+        "labelFontSize": 9,
+        "labelOverlap": true,
+        "labels": true
+      },
+      "field": "Decil",
+      "sort": null,
+      "title": "Decil",
+      "type": "quantitative"
+    },
+    "y": {
+      "axis": {
+        "labels": false
+      },
+      "field": "Target",
+      "title": "% Target",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_5",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Target mean per Decil",
+  "width": 350
+};
+            spec_decil_Fare.mark = { type: "bar", width: 20 }; 
+            spec_decil_Fare.layer = [
+              {
+                mark: { type: "bar", width: 20 },
+                encoding: spec_decil_Fare.encoding
+              },
+              {
+                mark: { type: "text", dy: -5 }, // Position the text above the bar
+                encoding: {
+                  text: { field: "Target", type: "quantitative" }, // Replace "value" with the field name for your bar values
+                  x: spec_decil_Fare.encoding.x,
+                  y: spec_decil_Fare.encoding.y
+                }
+              }
+            ];
+            const embedOpt_decil_Fare = { "actions": false };
+            vegaEmbed('#decil_graph_Fare', spec_decil_Fare, embedOpt_decil_Fare).catch(console.error);
+          </script>
+        </div>
+      </div>
+
+      <div class="container">
+
+
+        <div id="hist_time_graph_Fare"></div>
+        <script>
+          const spec_hist_time_Fare = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "legend": {
+      "orient": "top"
+    },
+    "title": {
+      "fontSize": 14
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-26a972b60698cb3429ddc6c0a7a0caf9"
+  },
+  "datasets": {
+    "data-26a972b60698cb3429ddc6c0a7a0caf9": [
+      {
+        "Count": 40,
+        "Date": "202309",
+        "Percentage": 20.51282051282051,
+        "Quintile": "<= 8.0"
+      },
+      {
+        "Count": 44,
+        "Date": "202306",
+        "Percentage": 18.487394957983195,
+        "Quintile": "<= 8.0"
+      },
+      {
+        "Count": 46,
+        "Date": "202307",
+        "Percentage": 20.444444444444446,
+        "Quintile": "<= 8.0"
+      },
+      {
+        "Count": 49,
+        "Date": "202308",
+        "Percentage": 21.030042918454935,
+        "Quintile": "<= 8.0"
+      },
+      {
+        "Count": 40,
+        "Date": "202309",
+        "Percentage": 20.51282051282051,
+        "Quintile": "<= 10.0"
+      },
+      {
+        "Count": 56,
+        "Date": "202306",
+        "Percentage": 23.52941176470588,
+        "Quintile": "<= 10.0"
+      },
+      {
+        "Count": 44,
+        "Date": "202307",
+        "Percentage": 19.555555555555557,
+        "Quintile": "<= 10.0"
+      },
+      {
+        "Count": 44,
+        "Date": "202308",
+        "Percentage": 18.88412017167382,
+        "Quintile": "<= 10.0"
+      },
+      {
+        "Count": 43,
+        "Date": "202309",
+        "Percentage": 22.05128205128205,
+        "Quintile": "<= 22.0"
+      },
+      {
+        "Count": 35,
+        "Date": "202306",
+        "Percentage": 14.705882352941178,
+        "Quintile": "<= 22.0"
+      },
+      {
+        "Count": 48,
+        "Date": "202307",
+        "Percentage": 21.333333333333336,
+        "Quintile": "<= 22.0"
+      },
+      {
+        "Count": 46,
+        "Date": "202308",
+        "Percentage": 19.742489270386265,
+        "Quintile": "<= 22.0"
+      },
+      {
+        "Count": 37,
+        "Date": "202309",
+        "Percentage": 18.974358974358974,
+        "Quintile": "<= 40.0"
+      },
+      {
+        "Count": 60,
+        "Date": "202306",
+        "Percentage": 25.210084033613445,
+        "Quintile": "<= 40.0"
+      },
+      {
+        "Count": 37,
+        "Date": "202307",
+        "Percentage": 16.444444444444446,
+        "Quintile": "<= 40.0"
+      },
+      {
+        "Count": 46,
+        "Date": "202308",
+        "Percentage": 19.742489270386265,
+        "Quintile": "<= 40.0"
+      },
+      {
+        "Count": 35,
+        "Date": "202309",
+        "Percentage": 17.94871794871795,
+        "Quintile": "> 40.0"
+      },
+      {
+        "Count": 43,
+        "Date": "202306",
+        "Percentage": 18.067226890756302,
+        "Quintile": "> 40.0"
+      },
+      {
+        "Count": 50,
+        "Date": "202307",
+        "Percentage": 22.22222222222222,
+        "Quintile": "> 40.0"
+      },
+      {
+        "Count": 48,
+        "Date": "202308",
+        "Percentage": 20.600858369098713,
+        "Quintile": "> 40.0"
+      }
+    ]
+  },
+  "encoding": {
+    "color": {
+      "field": "Quintile",
+      "title": "Legend",
+      "type": "nominal"
+    },
+    "x": {
+      "field": "Date",
+      "title": "Date",
+      "type": "nominal"
+    },
+    "y": {
+      "field": "Percentage",
+      "stack": "normalize",
+      "title": "Percentage",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_6",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Distribution Over Time",
+  "width": 800
+};
+          const embedOpt_hist_time_Fare = { "actions": false };
+          vegaEmbed('#hist_time_graph_Fare', spec_hist_time_Fare, embedOpt_hist_time_Fare).catch(console.error);
+        </script>
+
+      </div>
+      
+
+      <div class="container">
+
+        <h3> Cabin </h3>
+
+        <div class=".container-vertical">
+
+          <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Description</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>variable_type</td>
+      <td>object</td>
+    </tr>
+    <tr>
+      <td>number_of_missing</td>
+      <td>687</td>
+    </tr>
+    <tr>
+      <td>number_of_unique_values</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>number_per_values</td>
+      <td>{'Other': 175, 'G6': 4, 'B96 B98': 4, 'C23 C25 C27': 4, 'E101': 3, 'F33': 3, 'D': 3, 'F2': 3, 'C22 C26': 3, 'C123': 2}</td>
+    </tr>
+    <tr>
+      <td>unique_values</td>
+      <td>[nan, 'Other', 'C123', 'G6', 'C23 C25 C27', 'F33', 'E101', 'F2', 'D', 'C22 C26', 'B96 B98']</td>
+    </tr>
+  </tbody>
+</table>
+
+          <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Description</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>min</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>5%</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>25%</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>50%</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>75%</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>95%</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>max</td>
+      <td>cat feat</td>
+    </tr>
+  </tbody>
+</table>
+
+        </div>
+
+        <div class=".container-vertical">
+
+          <div id="hist_graph_Cabin"></div>
+          <script>
+            const spec_hist_Cabin = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "title": {
+      "fontSize": 14
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-95a7b3ca45e35673942998d6199df092"
+  },
+  "datasets": {
+    "data-95a7b3ca45e35673942998d6199df092": [
+      {
+        "Count": 4,
+        "Interval": "B96 B98"
+      },
+      {
+        "Count": 2,
+        "Interval": "C123"
+      },
+      {
+        "Count": 3,
+        "Interval": "C22 C26"
+      },
+      {
+        "Count": 4,
+        "Interval": "C23 C25 C27"
+      },
+      {
+        "Count": 3,
+        "Interval": "D"
+      },
+      {
+        "Count": 3,
+        "Interval": "E101"
+      },
+      {
+        "Count": 3,
+        "Interval": "F2"
+      },
+      {
+        "Count": 3,
+        "Interval": "F33"
+      },
+      {
+        "Count": 4,
+        "Interval": "G6"
+      },
+      {
+        "Count": 175,
+        "Interval": "Other"
+      }
+    ]
+  },
+  "encoding": {
+    "x": {
+      "axis": {
+        "labelFontSize": 9,
+        "labelOverlap": true,
+        "labels": true
+      },
+      "field": "Interval",
+      "sort": null,
+      "title": "",
+      "type": "nominal"
+    },
+    "y": {
+      "axis": {
+        "labels": false
+      },
+      "field": "Count",
+      "title": "Qty",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_7",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Histogram",
+  "width": 350
+};
+            spec_hist_Cabin.mark = { type: "bar", width: 15 }; // Set bar width
+            const embedOpt_hist_Cabin = { "actions": false };
+            vegaEmbed('#hist_graph_Cabin', spec_hist_Cabin, embedOpt_hist_Cabin).catch(console.error);
+          </script>
+
+          <br>
+
+          <div id="decil_graph_Cabin"></div>
+          <script>
+            const spec_decil_Cabin = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "title": {
+      "fontSize": 12
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-f7cb3c072a9ca4837ef797002fe870d6"
+  },
+  "datasets": {
+    "data-f7cb3c072a9ca4837ef797002fe870d6": [
+      {
+        "Decil": "B96 B98",
+        "Target": 1.0
+      },
+      {
+        "Decil": "C123",
+        "Target": 0.5
+      },
+      {
+        "Decil": "C22 C26",
+        "Target": 0.33
+      },
+      {
+        "Decil": "C23 C25 C27",
+        "Target": 0.5
+      },
+      {
+        "Decil": "D",
+        "Target": 0.67
+      },
+      {
+        "Decil": "E101",
+        "Target": 1.0
+      },
+      {
+        "Decil": "F2",
+        "Target": 0.67
+      },
+      {
+        "Decil": "F33",
+        "Target": 1.0
+      },
+      {
+        "Decil": "G6",
+        "Target": 0.5
+      },
+      {
+        "Decil": "Other",
+        "Target": 0.66
+      }
+    ]
+  },
+  "encoding": {
+    "x": {
+      "axis": {
+        "labelFontSize": 9,
+        "labelOverlap": true,
+        "labels": true
+      },
+      "field": "Decil",
+      "sort": null,
+      "title": "Decil",
+      "type": "nominal"
+    },
+    "y": {
+      "axis": {
+        "labels": false
+      },
+      "field": "Target",
+      "title": "% Target",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_8",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Target mean per Decil",
+  "width": 350
+};
+            spec_decil_Cabin.mark = { type: "bar", width: 20 }; 
+            spec_decil_Cabin.layer = [
+              {
+                mark: { type: "bar", width: 20 },
+                encoding: spec_decil_Cabin.encoding
+              },
+              {
+                mark: { type: "text", dy: -5 }, // Position the text above the bar
+                encoding: {
+                  text: { field: "Target", type: "quantitative" }, // Replace "value" with the field name for your bar values
+                  x: spec_decil_Cabin.encoding.x,
+                  y: spec_decil_Cabin.encoding.y
+                }
+              }
+            ];
+            const embedOpt_decil_Cabin = { "actions": false };
+            vegaEmbed('#decil_graph_Cabin', spec_decil_Cabin, embedOpt_decil_Cabin).catch(console.error);
+          </script>
+        </div>
+      </div>
+
+      <div class="container">
+
+
+        <div id="hist_time_graph_Cabin"></div>
+        <script>
+          const spec_hist_time_Cabin = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "legend": {
+      "orient": "top"
+    },
+    "title": {
+      "fontSize": 14
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-a0270e8826887da655f816b2d3e8f68a"
+  },
+  "datasets": {
+    "data-a0270e8826887da655f816b2d3e8f68a": [
+      {
+        "Count": 0.0,
+        "Date": "202309",
+        "Percentage": 0.0,
+        "Quintile": null
+      },
+      {
+        "Count": 0.0,
+        "Date": "202306",
+        "Percentage": 0.0,
+        "Quintile": null
+      },
+      {
+        "Count": 0.0,
+        "Date": "202307",
+        "Percentage": 0.0,
+        "Quintile": null
+      },
+      {
+        "Count": 0.0,
+        "Date": "202308",
+        "Percentage": 0.0,
+        "Quintile": null
+      },
+      {
+        "Count": 36.0,
+        "Date": "202309",
+        "Percentage": 80.0,
+        "Quintile": "Other"
+      },
+      {
+        "Count": 50.0,
+        "Date": "202306",
+        "Percentage": 87.71929824561403,
+        "Quintile": "Other"
+      },
+      {
+        "Count": 44.0,
+        "Date": "202307",
+        "Percentage": 89.79591836734694,
+        "Quintile": "Other"
+      },
+      {
+        "Count": 45.0,
+        "Date": "202308",
+        "Percentage": 84.90566037735849,
+        "Quintile": "Other"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202309",
+        "Percentage": 2.2222222222222223,
+        "Quintile": "C22 C26"
+      },
+      {
+        "Count": null,
+        "Date": "202306",
+        "Percentage": null,
+        "Quintile": "C22 C26"
+      },
+      {
+        "Count": 2.0,
+        "Date": "202307",
+        "Percentage": 4.081632653061225,
+        "Quintile": "C22 C26"
+      },
+      {
+        "Count": null,
+        "Date": "202308",
+        "Percentage": null,
+        "Quintile": "C22 C26"
+      },
+      {
+        "Count": 2.0,
+        "Date": "202309",
+        "Percentage": 4.444444444444445,
+        "Quintile": "D"
+      },
+      {
+        "Count": null,
+        "Date": "202306",
+        "Percentage": null,
+        "Quintile": "D"
+      },
+      {
+        "Count": null,
+        "Date": "202307",
+        "Percentage": null,
+        "Quintile": "D"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202308",
+        "Percentage": 1.8867924528301887,
+        "Quintile": "D"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202309",
+        "Percentage": 2.2222222222222223,
+        "Quintile": "F2"
+      },
+      {
+        "Count": 2.0,
+        "Date": "202306",
+        "Percentage": 3.508771929824561,
+        "Quintile": "F2"
+      },
+      {
+        "Count": null,
+        "Date": "202307",
+        "Percentage": null,
+        "Quintile": "F2"
+      },
+      {
+        "Count": null,
+        "Date": "202308",
+        "Percentage": null,
+        "Quintile": "F2"
+      },
+      {
+        "Count": 2.0,
+        "Date": "202309",
+        "Percentage": 4.444444444444445,
+        "Quintile": "F33"
+      },
+      {
+        "Count": null,
+        "Date": "202306",
+        "Percentage": null,
+        "Quintile": "F33"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202307",
+        "Percentage": 2.0408163265306123,
+        "Quintile": "F33"
+      },
+      {
+        "Count": null,
+        "Date": "202308",
+        "Percentage": null,
+        "Quintile": "F33"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202309",
+        "Percentage": 2.2222222222222223,
+        "Quintile": "G6"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202306",
+        "Percentage": 1.7543859649122806,
+        "Quintile": "G6"
+      },
+      {
+        "Count": null,
+        "Date": "202307",
+        "Percentage": null,
+        "Quintile": "G6"
+      },
+      {
+        "Count": 2.0,
+        "Date": "202308",
+        "Percentage": 3.7735849056603774,
+        "Quintile": "G6"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202309",
+        "Percentage": 2.2222222222222223,
+        "Quintile": "C23 C25 C27"
+      },
+      {
+        "Count": null,
+        "Date": "202306",
+        "Percentage": null,
+        "Quintile": "C23 C25 C27"
+      },
+      {
+        "Count": null,
+        "Date": "202307",
+        "Percentage": null,
+        "Quintile": "C23 C25 C27"
+      },
+      {
+        "Count": 3.0,
+        "Date": "202308",
+        "Percentage": 5.660377358490567,
+        "Quintile": "C23 C25 C27"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202309",
+        "Percentage": 2.2222222222222223,
+        "Quintile": "B96 B98"
+      },
+      {
+        "Count": null,
+        "Date": "202306",
+        "Percentage": null,
+        "Quintile": "B96 B98"
+      },
+      {
+        "Count": 2.0,
+        "Date": "202307",
+        "Percentage": 4.081632653061225,
+        "Quintile": "B96 B98"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202308",
+        "Percentage": 1.8867924528301887,
+        "Quintile": "B96 B98"
+      },
+      {
+        "Count": null,
+        "Date": "202309",
+        "Percentage": null,
+        "Quintile": "C123"
+      },
+      {
+        "Count": 2.0,
+        "Date": "202306",
+        "Percentage": 3.508771929824561,
+        "Quintile": "C123"
+      },
+      {
+        "Count": null,
+        "Date": "202307",
+        "Percentage": null,
+        "Quintile": "C123"
+      },
+      {
+        "Count": null,
+        "Date": "202308",
+        "Percentage": null,
+        "Quintile": "C123"
+      },
+      {
+        "Count": null,
+        "Date": "202309",
+        "Percentage": null,
+        "Quintile": "E101"
+      },
+      {
+        "Count": 2.0,
+        "Date": "202306",
+        "Percentage": 3.508771929824561,
+        "Quintile": "E101"
+      },
+      {
+        "Count": null,
+        "Date": "202307",
+        "Percentage": null,
+        "Quintile": "E101"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202308",
+        "Percentage": 1.8867924528301887,
+        "Quintile": "E101"
+      }
+    ]
+  },
+  "encoding": {
+    "color": {
+      "field": "Quintile",
+      "title": "Legend",
+      "type": "nominal"
+    },
+    "x": {
+      "field": "Date",
+      "title": "Date",
+      "type": "nominal"
+    },
+    "y": {
+      "field": "Percentage",
+      "stack": "normalize",
+      "title": "Percentage",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_9",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Distribution Over Time",
+  "width": 800
+};
+          const embedOpt_hist_time_Cabin = { "actions": false };
+          vegaEmbed('#hist_time_graph_Cabin', spec_hist_time_Cabin, embedOpt_hist_time_Cabin).catch(console.error);
+        </script>
+
+      </div>
+      
+
+      <div class="container">
+
+        <h3> Ticket </h3>
+
+        <div class=".container-vertical">
+
+          <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Description</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>variable_type</td>
+      <td>object</td>
+    </tr>
+    <tr>
+      <td>number_of_missing</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>number_of_unique_values</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>number_per_values</td>
+      <td>{'Other': 838, '347082': 7, '1601': 7, 'CA. 2343': 7, 'CA 2144': 6, '3101295': 6, '347088': 6, '382652': 5, 'S.O.C. 14879': 5, '19950': 4}</td>
+    </tr>
+    <tr>
+      <td>unique_values</td>
+      <td>['Other', '347082', '382652', '19950', '3101295', 'CA 2144', '347088', 'S.O.C. 14879', '1601', 'CA. 2343']</td>
+    </tr>
+  </tbody>
+</table>
+
+          <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Description</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>min</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>5%</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>25%</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>50%</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>75%</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>95%</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>max</td>
+      <td>cat feat</td>
+    </tr>
+  </tbody>
+</table>
+
+        </div>
+
+        <div class=".container-vertical">
+
+          <div id="hist_graph_Ticket"></div>
+          <script>
+            const spec_hist_Ticket = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "title": {
+      "fontSize": 14
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-cb857dc4ccc7034f7d527d1eb16a122b"
+  },
+  "datasets": {
+    "data-cb857dc4ccc7034f7d527d1eb16a122b": [
+      {
+        "Count": 7,
+        "Interval": "1601"
+      },
+      {
+        "Count": 4,
+        "Interval": "19950"
+      },
+      {
+        "Count": 6,
+        "Interval": "3101295"
+      },
+      {
+        "Count": 7,
+        "Interval": "347082"
+      },
+      {
+        "Count": 6,
+        "Interval": "347088"
+      },
+      {
+        "Count": 5,
+        "Interval": "382652"
+      },
+      {
+        "Count": 6,
+        "Interval": "CA 2144"
+      },
+      {
+        "Count": 7,
+        "Interval": "CA. 2343"
+      },
+      {
+        "Count": 838,
+        "Interval": "Other"
+      },
+      {
+        "Count": 5,
+        "Interval": "S.O.C. 14879"
+      }
+    ]
+  },
+  "encoding": {
+    "x": {
+      "axis": {
+        "labelFontSize": 9,
+        "labelOverlap": true,
+        "labels": true
+      },
+      "field": "Interval",
+      "sort": null,
+      "title": "",
+      "type": "nominal"
+    },
+    "y": {
+      "axis": {
+        "labels": false
+      },
+      "field": "Count",
+      "title": "Qty",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_10",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Histogram",
+  "width": 350
+};
+            spec_hist_Ticket.mark = { type: "bar", width: 15 }; // Set bar width
+            const embedOpt_hist_Ticket = { "actions": false };
+            vegaEmbed('#hist_graph_Ticket', spec_hist_Ticket, embedOpt_hist_Ticket).catch(console.error);
+          </script>
+
+          <br>
+
+          <div id="decil_graph_Ticket"></div>
+          <script>
+            const spec_decil_Ticket = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "title": {
+      "fontSize": 12
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-7f8333021d8c2ed0b34d9d1c58d0df73"
+  },
+  "datasets": {
+    "data-7f8333021d8c2ed0b34d9d1c58d0df73": [
+      {
+        "Decil": "1601",
+        "Target": 0.71
+      },
+      {
+        "Decil": "19950",
+        "Target": 0.5
+      },
+      {
+        "Decil": "3101295",
+        "Target": 0.0
+      },
+      {
+        "Decil": "347082",
+        "Target": 0.0
+      },
+      {
+        "Decil": "347088",
+        "Target": 0.0
+      },
+      {
+        "Decil": "382652",
+        "Target": 0.0
+      },
+      {
+        "Decil": "CA 2144",
+        "Target": 0.0
+      },
+      {
+        "Decil": "CA. 2343",
+        "Target": 0.0
+      },
+      {
+        "Decil": "Other",
+        "Target": 0.4
+      },
+      {
+        "Decil": "S.O.C. 14879",
+        "Target": 0.0
+      }
+    ]
+  },
+  "encoding": {
+    "x": {
+      "axis": {
+        "labelFontSize": 9,
+        "labelOverlap": true,
+        "labels": true
+      },
+      "field": "Decil",
+      "sort": null,
+      "title": "Decil",
+      "type": "nominal"
+    },
+    "y": {
+      "axis": {
+        "labels": false
+      },
+      "field": "Target",
+      "title": "% Target",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_11",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Target mean per Decil",
+  "width": 350
+};
+            spec_decil_Ticket.mark = { type: "bar", width: 20 }; 
+            spec_decil_Ticket.layer = [
+              {
+                mark: { type: "bar", width: 20 },
+                encoding: spec_decil_Ticket.encoding
+              },
+              {
+                mark: { type: "text", dy: -5 }, // Position the text above the bar
+                encoding: {
+                  text: { field: "Target", type: "quantitative" }, // Replace "value" with the field name for your bar values
+                  x: spec_decil_Ticket.encoding.x,
+                  y: spec_decil_Ticket.encoding.y
+                }
+              }
+            ];
+            const embedOpt_decil_Ticket = { "actions": false };
+            vegaEmbed('#decil_graph_Ticket', spec_decil_Ticket, embedOpt_decil_Ticket).catch(console.error);
+          </script>
+        </div>
+      </div>
+
+      <div class="container">
+
+
+        <div id="hist_time_graph_Ticket"></div>
+        <script>
+          const spec_hist_time_Ticket = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "legend": {
+      "orient": "top"
+    },
+    "title": {
+      "fontSize": 14
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-dc3bb8fdbb2c015ad95a2a5468a17341"
+  },
+  "datasets": {
+    "data-dc3bb8fdbb2c015ad95a2a5468a17341": [
+      {
+        "Count": 181.0,
+        "Date": "202309",
+        "Percentage": 92.82051282051282,
+        "Quintile": "Other"
+      },
+      {
+        "Count": 224.0,
+        "Date": "202306",
+        "Percentage": 94.11764705882352,
+        "Quintile": "Other"
+      },
+      {
+        "Count": 213.0,
+        "Date": "202307",
+        "Percentage": 94.66666666666667,
+        "Quintile": "Other"
+      },
+      {
+        "Count": 220.0,
+        "Date": "202308",
+        "Percentage": 94.4206008583691,
+        "Quintile": "Other"
+      },
+      {
+        "Count": 3.0,
+        "Date": "202309",
+        "Percentage": 1.5384615384615385,
+        "Quintile": "347082"
+      },
+      {
+        "Count": 4.0,
+        "Date": "202306",
+        "Percentage": 1.680672268907563,
+        "Quintile": "347082"
+      },
+      {
+        "Count": null,
+        "Date": "202307",
+        "Percentage": null,
+        "Quintile": "347082"
+      },
+      {
+        "Count": null,
+        "Date": "202308",
+        "Percentage": null,
+        "Quintile": "347082"
+      },
+      {
+        "Count": 3.0,
+        "Date": "202309",
+        "Percentage": 1.5384615384615385,
+        "Quintile": "CA 2144"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202306",
+        "Percentage": 0.42016806722689076,
+        "Quintile": "CA 2144"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202307",
+        "Percentage": 0.4444444444444444,
+        "Quintile": "CA 2144"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202308",
+        "Percentage": 0.4291845493562232,
+        "Quintile": "CA 2144"
+      },
+      {
+        "Count": 3.0,
+        "Date": "202309",
+        "Percentage": 1.5384615384615385,
+        "Quintile": "1601"
+      },
+      {
+        "Count": null,
+        "Date": "202306",
+        "Percentage": null,
+        "Quintile": "1601"
+      },
+      {
+        "Count": 2.0,
+        "Date": "202307",
+        "Percentage": 0.8888888888888888,
+        "Quintile": "1601"
+      },
+      {
+        "Count": 2.0,
+        "Date": "202308",
+        "Percentage": 0.8583690987124464,
+        "Quintile": "1601"
+      },
+      {
+        "Count": 2.0,
+        "Date": "202309",
+        "Percentage": 1.0256410256410255,
+        "Quintile": "382652"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202306",
+        "Percentage": 0.42016806722689076,
+        "Quintile": "382652"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202307",
+        "Percentage": 0.4444444444444444,
+        "Quintile": "382652"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202308",
+        "Percentage": 0.4291845493562232,
+        "Quintile": "382652"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202309",
+        "Percentage": 0.5128205128205128,
+        "Quintile": "19950"
+      },
+      {
+        "Count": null,
+        "Date": "202306",
+        "Percentage": null,
+        "Quintile": "19950"
+      },
+      {
+        "Count": null,
+        "Date": "202307",
+        "Percentage": null,
+        "Quintile": "19950"
+      },
+      {
+        "Count": 3.0,
+        "Date": "202308",
+        "Percentage": 1.2875536480686696,
+        "Quintile": "19950"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202309",
+        "Percentage": 0.5128205128205128,
+        "Quintile": "S.O.C. 14879"
+      },
+      {
+        "Count": 2.0,
+        "Date": "202306",
+        "Percentage": 0.8403361344537815,
+        "Quintile": "S.O.C. 14879"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202307",
+        "Percentage": 0.4444444444444444,
+        "Quintile": "S.O.C. 14879"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202308",
+        "Percentage": 0.4291845493562232,
+        "Quintile": "S.O.C. 14879"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202309",
+        "Percentage": 0.5128205128205128,
+        "Quintile": "3101295"
+      },
+      {
+        "Count": 2.0,
+        "Date": "202306",
+        "Percentage": 0.8403361344537815,
+        "Quintile": "3101295"
+      },
+      {
+        "Count": 2.0,
+        "Date": "202307",
+        "Percentage": 0.8888888888888888,
+        "Quintile": "3101295"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202308",
+        "Percentage": 0.4291845493562232,
+        "Quintile": "3101295"
+      },
+      {
+        "Count": null,
+        "Date": "202309",
+        "Percentage": null,
+        "Quintile": "347088"
+      },
+      {
+        "Count": 2.0,
+        "Date": "202306",
+        "Percentage": 0.8403361344537815,
+        "Quintile": "347088"
+      },
+      {
+        "Count": 3.0,
+        "Date": "202307",
+        "Percentage": 1.3333333333333335,
+        "Quintile": "347088"
+      },
+      {
+        "Count": 1.0,
+        "Date": "202308",
+        "Percentage": 0.4291845493562232,
+        "Quintile": "347088"
+      },
+      {
+        "Count": null,
+        "Date": "202309",
+        "Percentage": null,
+        "Quintile": "CA. 2343"
+      },
+      {
+        "Count": 2.0,
+        "Date": "202306",
+        "Percentage": 0.8403361344537815,
+        "Quintile": "CA. 2343"
+      },
+      {
+        "Count": 2.0,
+        "Date": "202307",
+        "Percentage": 0.8888888888888888,
+        "Quintile": "CA. 2343"
+      },
+      {
+        "Count": 3.0,
+        "Date": "202308",
+        "Percentage": 1.2875536480686696,
+        "Quintile": "CA. 2343"
+      }
+    ]
+  },
+  "encoding": {
+    "color": {
+      "field": "Quintile",
+      "title": "Legend",
+      "type": "nominal"
+    },
+    "x": {
+      "field": "Date",
+      "title": "Date",
+      "type": "nominal"
+    },
+    "y": {
+      "field": "Percentage",
+      "stack": "normalize",
+      "title": "Percentage",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_12",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Distribution Over Time",
+  "width": 800
+};
+          const embedOpt_hist_time_Ticket = { "actions": false };
+          vegaEmbed('#hist_time_graph_Ticket', spec_hist_time_Ticket, embedOpt_hist_time_Ticket).catch(console.error);
+        </script>
+
+      </div>
+      
+
+      <div class="container">
+
+        <h3> Parch </h3>
+
+        <div class=".container-vertical">
+
+          <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Description</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>variable_type</td>
+      <td>int64</td>
+    </tr>
+    <tr>
+      <td>number_of_unique_values</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <td>number_of_missing</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>number_of_zeros</td>
+      <td>678</td>
+    </tr>
+    <tr>
+      <td>sum</td>
+      <td>340</td>
+    </tr>
+    <tr>
+      <td>mean</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>median</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>std</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+
+          <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Description</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>min</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>5%</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>25%</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>50%</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>75%</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>95%</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>max</td>
+      <td>6</td>
+    </tr>
+  </tbody>
+</table>
+
+        </div>
+
+        <div class=".container-vertical">
+
+          <div id="hist_graph_Parch"></div>
+          <script>
+            const spec_hist_Parch = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "title": {
+      "fontSize": 14
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-f148de4feb8be62b5aea4ce8d7170457"
+  },
+  "datasets": {
+    "data-f148de4feb8be62b5aea4ce8d7170457": [
+      {
+        "Count": 678,
+        "Interval": 0
+      },
+      {
+        "Count": 118,
+        "Interval": 1
+      },
+      {
+        "Count": 80,
+        "Interval": 2
+      },
+      {
+        "Count": 5,
+        "Interval": 3
+      },
+      {
+        "Count": 4,
+        "Interval": 4
+      },
+      {
+        "Count": 5,
+        "Interval": 5
+      },
+      {
+        "Count": 1,
+        "Interval": 6
+      }
+    ]
+  },
+  "encoding": {
+    "x": {
+      "axis": {
+        "labelFontSize": 9,
+        "labelOverlap": true,
+        "labels": true
+      },
+      "field": "Interval",
+      "sort": null,
+      "title": "",
+      "type": "quantitative"
+    },
+    "y": {
+      "axis": {
+        "labels": false
+      },
+      "field": "Count",
+      "title": "Qty",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_13",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Histogram",
+  "width": 350
+};
+            spec_hist_Parch.mark = { type: "bar", width: 15 }; // Set bar width
+            const embedOpt_hist_Parch = { "actions": false };
+            vegaEmbed('#hist_graph_Parch', spec_hist_Parch, embedOpt_hist_Parch).catch(console.error);
+          </script>
+
+          <br>
+
+          <div id="decil_graph_Parch"></div>
+          <script>
+            const spec_decil_Parch = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "title": {
+      "fontSize": 12
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-f85da4ab32ed2402ffc41fe18414c38b"
+  },
+  "datasets": {
+    "data-f85da4ab32ed2402ffc41fe18414c38b": [
+      {
+        "Decil": 0,
+        "Target": 0.34
+      },
+      {
+        "Decil": 1,
+        "Target": 0.55
+      },
+      {
+        "Decil": 2,
+        "Target": 0.5
+      },
+      {
+        "Decil": 3,
+        "Target": 0.6
+      },
+      {
+        "Decil": 4,
+        "Target": 0.0
+      },
+      {
+        "Decil": 5,
+        "Target": 0.2
+      },
+      {
+        "Decil": 6,
+        "Target": 0.0
+      }
+    ]
+  },
+  "encoding": {
+    "x": {
+      "axis": {
+        "labelFontSize": 9,
+        "labelOverlap": true,
+        "labels": true
+      },
+      "field": "Decil",
+      "sort": null,
+      "title": "Decil",
+      "type": "quantitative"
+    },
+    "y": {
+      "axis": {
+        "labels": false
+      },
+      "field": "Target",
+      "title": "% Target",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_14",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Target mean per Decil",
+  "width": 350
+};
+            spec_decil_Parch.mark = { type: "bar", width: 20 }; 
+            spec_decil_Parch.layer = [
+              {
+                mark: { type: "bar", width: 20 },
+                encoding: spec_decil_Parch.encoding
+              },
+              {
+                mark: { type: "text", dy: -5 }, // Position the text above the bar
+                encoding: {
+                  text: { field: "Target", type: "quantitative" }, // Replace "value" with the field name for your bar values
+                  x: spec_decil_Parch.encoding.x,
+                  y: spec_decil_Parch.encoding.y
+                }
+              }
+            ];
+            const embedOpt_decil_Parch = { "actions": false };
+            vegaEmbed('#decil_graph_Parch', spec_decil_Parch, embedOpt_decil_Parch).catch(console.error);
+          </script>
+        </div>
+      </div>
+
+      <div class="container">
+
+
+        <div id="hist_time_graph_Parch"></div>
+        <script>
+          const spec_hist_time_Parch = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "legend": {
+      "orient": "top"
+    },
+    "title": {
+      "fontSize": 14
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-7569bd5a9c708d7022a82b8174f837b4"
+  },
+  "datasets": {
+    "data-7569bd5a9c708d7022a82b8174f837b4": [
+      {
+        "Count": 142.0,
+        "Date": "202309",
+        "Percentage": 72.82051282051282,
+        "Quintile": 0
+      },
+      {
+        "Count": 186.0,
+        "Date": "202306",
+        "Percentage": 78.15126050420169,
+        "Quintile": 0
+      },
+      {
+        "Count": 169.0,
+        "Date": "202307",
+        "Percentage": 75.1111111111111,
+        "Quintile": 0
+      },
+      {
+        "Count": 181.0,
+        "Date": "202308",
+        "Percentage": 77.6824034334764,
+        "Quintile": 0
+      },
+      {
+        "Count": 29.0,
+        "Date": "202309",
+        "Percentage": 14.871794871794872,
+        "Quintile": 1
+      },
+      {
+        "Count": 29.0,
+        "Date": "202306",
+        "Percentage": 12.184873949579831,
+        "Quintile": 1
+      },
+      {
+        "Count": 37.0,
+        "Date": "202307",
+        "Percentage": 16.444444444444446,
+        "Quintile": 1
+      },
+      {
+        "Count": 23.0,
+        "Date": "202308",
+        "Percentage": 9.871244635193133,
+        "Quintile": 1
+      },
+      {
+        "Count": 2.0,
+        "Date": "202309",
+        "Percentage": 1.0256410256410255,
+        "Quintile": 5
+      },
+      {
+        "Count": null,
+        "Date": "202306",
+        "Percentage": null,
+        "Quintile": 5
+      },
+      {
+        "Count": 2.0,
+        "Date": "202307",
+        "Percentage": 0.8888888888888888,
+        "Quintile": 5
+      },
+      {
+        "Count": 1.0,
+        "Date": "202308",
+        "Percentage": 0.4291845493562232,
+        "Quintile": 5
+      },
+      {
+        "Count": 19.0,
+        "Date": "202309",
+        "Percentage": 9.743589743589745,
+        "Quintile": 2
+      },
+      {
+        "Count": 20.0,
+        "Date": "202306",
+        "Percentage": 8.403361344537815,
+        "Quintile": 2
+      },
+      {
+        "Count": 14.0,
+        "Date": "202307",
+        "Percentage": 6.222222222222222,
+        "Quintile": 2
+      },
+      {
+        "Count": 27.0,
+        "Date": "202308",
+        "Percentage": 11.587982832618025,
+        "Quintile": 2
+      },
+      {
+        "Count": 1.0,
+        "Date": "202309",
+        "Percentage": 0.5128205128205128,
+        "Quintile": 4
+      },
+      {
+        "Count": 2.0,
+        "Date": "202306",
+        "Percentage": 0.8403361344537815,
+        "Quintile": 4
+      },
+      {
+        "Count": 1.0,
+        "Date": "202307",
+        "Percentage": 0.4444444444444444,
+        "Quintile": 4
+      },
+      {
+        "Count": null,
+        "Date": "202308",
+        "Percentage": null,
+        "Quintile": 4
+      },
+      {
+        "Count": 1.0,
+        "Date": "202309",
+        "Percentage": 0.5128205128205128,
+        "Quintile": 6
+      },
+      {
+        "Count": null,
+        "Date": "202306",
+        "Percentage": null,
+        "Quintile": 6
+      },
+      {
+        "Count": null,
+        "Date": "202307",
+        "Percentage": null,
+        "Quintile": 6
+      },
+      {
+        "Count": null,
+        "Date": "202308",
+        "Percentage": null,
+        "Quintile": 6
+      },
+      {
+        "Count": 1.0,
+        "Date": "202309",
+        "Percentage": 0.5128205128205128,
+        "Quintile": 3
+      },
+      {
+        "Count": 1.0,
+        "Date": "202306",
+        "Percentage": 0.42016806722689076,
+        "Quintile": 3
+      },
+      {
+        "Count": 2.0,
+        "Date": "202307",
+        "Percentage": 0.8888888888888888,
+        "Quintile": 3
+      },
+      {
+        "Count": 1.0,
+        "Date": "202308",
+        "Percentage": 0.4291845493562232,
+        "Quintile": 3
+      }
+    ]
+  },
+  "encoding": {
+    "color": {
+      "field": "Quintile",
+      "title": "Legend",
+      "type": "quantitative"
+    },
+    "x": {
+      "field": "Date",
+      "title": "Date",
+      "type": "nominal"
+    },
+    "y": {
+      "field": "Percentage",
+      "stack": "normalize",
+      "title": "Percentage",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_15",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Distribution Over Time",
+  "width": 800
+};
+          const embedOpt_hist_time_Parch = { "actions": false };
+          vegaEmbed('#hist_time_graph_Parch', spec_hist_time_Parch, embedOpt_hist_time_Parch).catch(console.error);
+        </script>
+
+      </div>
+      
+
+      <div class="container">
+
+        <h3> SibSp </h3>
+
+        <div class=".container-vertical">
+
+          <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Description</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>variable_type</td>
+      <td>int64</td>
+    </tr>
+    <tr>
+      <td>number_of_unique_values</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <td>number_of_missing</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>number_of_zeros</td>
+      <td>608</td>
+    </tr>
+    <tr>
+      <td>sum</td>
+      <td>466</td>
+    </tr>
+    <tr>
+      <td>mean</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>median</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>std</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+
+          <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Description</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>min</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>5%</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>25%</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>50%</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>75%</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>95%</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>max</td>
+      <td>8</td>
+    </tr>
+  </tbody>
+</table>
+
+        </div>
+
+        <div class=".container-vertical">
+
+          <div id="hist_graph_SibSp"></div>
+          <script>
+            const spec_hist_SibSp = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "title": {
+      "fontSize": 14
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-09dbcb44ef6e69fb6289bd2ea6e8b175"
+  },
+  "datasets": {
+    "data-09dbcb44ef6e69fb6289bd2ea6e8b175": [
+      {
+        "Count": 608,
+        "Interval": 0
+      },
+      {
+        "Count": 209,
+        "Interval": 1
+      },
+      {
+        "Count": 28,
+        "Interval": 2
+      },
+      {
+        "Count": 16,
+        "Interval": 3
+      },
+      {
+        "Count": 18,
+        "Interval": 4
+      },
+      {
+        "Count": 5,
+        "Interval": 5
+      },
+      {
+        "Count": 7,
+        "Interval": 8
+      }
+    ]
+  },
+  "encoding": {
+    "x": {
+      "axis": {
+        "labelFontSize": 9,
+        "labelOverlap": true,
+        "labels": true
+      },
+      "field": "Interval",
+      "sort": null,
+      "title": "",
+      "type": "quantitative"
+    },
+    "y": {
+      "axis": {
+        "labels": false
+      },
+      "field": "Count",
+      "title": "Qty",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_16",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Histogram",
+  "width": 350
+};
+            spec_hist_SibSp.mark = { type: "bar", width: 15 }; // Set bar width
+            const embedOpt_hist_SibSp = { "actions": false };
+            vegaEmbed('#hist_graph_SibSp', spec_hist_SibSp, embedOpt_hist_SibSp).catch(console.error);
+          </script>
+
+          <br>
+
+          <div id="decil_graph_SibSp"></div>
+          <script>
+            const spec_decil_SibSp = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "title": {
+      "fontSize": 12
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-0026e8e8d711d1b70639a06479dc46b4"
+  },
+  "datasets": {
+    "data-0026e8e8d711d1b70639a06479dc46b4": [
+      {
+        "Decil": 0,
+        "Target": 0.35
+      },
+      {
+        "Decil": 1,
+        "Target": 0.54
+      },
+      {
+        "Decil": 2,
+        "Target": 0.46
+      },
+      {
+        "Decil": 3,
+        "Target": 0.25
+      },
+      {
+        "Decil": 4,
+        "Target": 0.17
+      },
+      {
+        "Decil": 5,
+        "Target": 0.0
+      },
+      {
+        "Decil": 8,
+        "Target": 0.0
+      }
+    ]
+  },
+  "encoding": {
+    "x": {
+      "axis": {
+        "labelFontSize": 9,
+        "labelOverlap": true,
+        "labels": true
+      },
+      "field": "Decil",
+      "sort": null,
+      "title": "Decil",
+      "type": "quantitative"
+    },
+    "y": {
+      "axis": {
+        "labels": false
+      },
+      "field": "Target",
+      "title": "% Target",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_17",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Target mean per Decil",
+  "width": 350
+};
+            spec_decil_SibSp.mark = { type: "bar", width: 20 }; 
+            spec_decil_SibSp.layer = [
+              {
+                mark: { type: "bar", width: 20 },
+                encoding: spec_decil_SibSp.encoding
+              },
+              {
+                mark: { type: "text", dy: -5 }, // Position the text above the bar
+                encoding: {
+                  text: { field: "Target", type: "quantitative" }, // Replace "value" with the field name for your bar values
+                  x: spec_decil_SibSp.encoding.x,
+                  y: spec_decil_SibSp.encoding.y
+                }
+              }
+            ];
+            const embedOpt_decil_SibSp = { "actions": false };
+            vegaEmbed('#decil_graph_SibSp', spec_decil_SibSp, embedOpt_decil_SibSp).catch(console.error);
+          </script>
+        </div>
+      </div>
+
+      <div class="container">
+
+
+        <div id="hist_time_graph_SibSp"></div>
+        <script>
+          const spec_hist_time_SibSp = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "legend": {
+      "orient": "top"
+    },
+    "title": {
+      "fontSize": 14
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-695ec3ba9876823a6d3dd39905f20996"
+  },
+  "datasets": {
+    "data-695ec3ba9876823a6d3dd39905f20996": [
+      {
+        "Count": 45.0,
+        "Date": "202309",
+        "Percentage": 23.076923076923077,
+        "Quintile": 1
+      },
+      {
+        "Count": 53.0,
+        "Date": "202306",
+        "Percentage": 22.268907563025213,
+        "Quintile": 1
+      },
+      {
+        "Count": 62.0,
+        "Date": "202307",
+        "Percentage": 27.555555555555557,
+        "Quintile": 1
+      },
+      {
+        "Count": 49.0,
+        "Date": "202308",
+        "Percentage": 21.030042918454935,
+        "Quintile": 1
+      },
+      {
+        "Count": 3.0,
+        "Date": "202309",
+        "Percentage": 1.5384615384615385,
+        "Quintile": 3
+      },
+      {
+        "Count": 2.0,
+        "Date": "202306",
+        "Percentage": 0.8403361344537815,
+        "Quintile": 3
+      },
+      {
+        "Count": 7.0,
+        "Date": "202307",
+        "Percentage": 3.111111111111111,
+        "Quintile": 3
+      },
+      {
+        "Count": 4.0,
+        "Date": "202308",
+        "Percentage": 1.7167381974248928,
+        "Quintile": 3
+      },
+      {
+        "Count": 134.0,
+        "Date": "202309",
+        "Percentage": 68.71794871794872,
+        "Quintile": 0
+      },
+      {
+        "Count": 166.0,
+        "Date": "202306",
+        "Percentage": 69.74789915966386,
+        "Quintile": 0
+      },
+      {
+        "Count": 147.0,
+        "Date": "202307",
+        "Percentage": 65.33333333333333,
+        "Quintile": 0
+      },
+      {
+        "Count": 161.0,
+        "Date": "202308",
+        "Percentage": 69.09871244635193,
+        "Quintile": 0
+      },
+      {
+        "Count": 2.0,
+        "Date": "202309",
+        "Percentage": 1.0256410256410255,
+        "Quintile": 5
+      },
+      {
+        "Count": 1.0,
+        "Date": "202306",
+        "Percentage": 0.42016806722689076,
+        "Quintile": 5
+      },
+      {
+        "Count": 1.0,
+        "Date": "202307",
+        "Percentage": 0.4444444444444444,
+        "Quintile": 5
+      },
+      {
+        "Count": 1.0,
+        "Date": "202308",
+        "Percentage": 0.4291845493562232,
+        "Quintile": 5
+      },
+      {
+        "Count": 7.0,
+        "Date": "202309",
+        "Percentage": 3.5897435897435894,
+        "Quintile": 2
+      },
+      {
+        "Count": 6.0,
+        "Date": "202306",
+        "Percentage": 2.5210084033613445,
+        "Quintile": 2
+      },
+      {
+        "Count": 3.0,
+        "Date": "202307",
+        "Percentage": 1.3333333333333335,
+        "Quintile": 2
+      },
+      {
+        "Count": 12.0,
+        "Date": "202308",
+        "Percentage": 5.150214592274678,
+        "Quintile": 2
+      },
+      {
+        "Count": 4.0,
+        "Date": "202309",
+        "Percentage": 2.051282051282051,
+        "Quintile": 4
+      },
+      {
+        "Count": 8.0,
+        "Date": "202306",
+        "Percentage": 3.361344537815126,
+        "Quintile": 4
+      },
+      {
+        "Count": 3.0,
+        "Date": "202307",
+        "Percentage": 1.3333333333333335,
+        "Quintile": 4
+      },
+      {
+        "Count": 3.0,
+        "Date": "202308",
+        "Percentage": 1.2875536480686696,
+        "Quintile": 4
+      },
+      {
+        "Count": null,
+        "Date": "202309",
+        "Percentage": null,
+        "Quintile": 8
+      },
+      {
+        "Count": 2.0,
+        "Date": "202306",
+        "Percentage": 0.8403361344537815,
+        "Quintile": 8
+      },
+      {
+        "Count": 2.0,
+        "Date": "202307",
+        "Percentage": 0.8888888888888888,
+        "Quintile": 8
+      },
+      {
+        "Count": 3.0,
+        "Date": "202308",
+        "Percentage": 1.2875536480686696,
+        "Quintile": 8
+      }
+    ]
+  },
+  "encoding": {
+    "color": {
+      "field": "Quintile",
+      "title": "Legend",
+      "type": "quantitative"
+    },
+    "x": {
+      "field": "Date",
+      "title": "Date",
+      "type": "nominal"
+    },
+    "y": {
+      "field": "Percentage",
+      "stack": "normalize",
+      "title": "Percentage",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_18",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Distribution Over Time",
+  "width": 800
+};
+          const embedOpt_hist_time_SibSp = { "actions": false };
+          vegaEmbed('#hist_time_graph_SibSp', spec_hist_time_SibSp, embedOpt_hist_time_SibSp).catch(console.error);
+        </script>
+
+      </div>
+      
+
+      <div class="container">
+
+        <h3> Sex </h3>
+
+        <div class=".container-vertical">
+
+          <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Description</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>variable_type</td>
+      <td>object</td>
+    </tr>
+    <tr>
+      <td>number_of_missing</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>number_of_unique_values</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>number_per_values</td>
+      <td>{'male': 577, 'female': 314}</td>
+    </tr>
+    <tr>
+      <td>unique_values</td>
+      <td>['male', 'female']</td>
+    </tr>
+  </tbody>
+</table>
+
+          <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Description</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>min</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>5%</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>25%</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>50%</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>75%</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>95%</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>max</td>
+      <td>cat feat</td>
+    </tr>
+  </tbody>
+</table>
+
+        </div>
+
+        <div class=".container-vertical">
+
+          <div id="hist_graph_Sex"></div>
+          <script>
+            const spec_hist_Sex = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "title": {
+      "fontSize": 14
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-5341f6254245ab730c1d10ddff1bb5fc"
+  },
+  "datasets": {
+    "data-5341f6254245ab730c1d10ddff1bb5fc": [
+      {
+        "Count": 314,
+        "Interval": "female"
+      },
+      {
+        "Count": 577,
+        "Interval": "male"
+      }
+    ]
+  },
+  "encoding": {
+    "x": {
+      "axis": {
+        "labelFontSize": 9,
+        "labelOverlap": true,
+        "labels": true
+      },
+      "field": "Interval",
+      "sort": null,
+      "title": "",
+      "type": "nominal"
+    },
+    "y": {
+      "axis": {
+        "labels": false
+      },
+      "field": "Count",
+      "title": "Qty",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_19",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Histogram",
+  "width": 350
+};
+            spec_hist_Sex.mark = { type: "bar", width: 15 }; // Set bar width
+            const embedOpt_hist_Sex = { "actions": false };
+            vegaEmbed('#hist_graph_Sex', spec_hist_Sex, embedOpt_hist_Sex).catch(console.error);
+          </script>
+
+          <br>
+
+          <div id="decil_graph_Sex"></div>
+          <script>
+            const spec_decil_Sex = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "title": {
+      "fontSize": 12
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-fe63e794cf0a5786e074c2bb99ac5465"
+  },
+  "datasets": {
+    "data-fe63e794cf0a5786e074c2bb99ac5465": [
+      {
+        "Decil": "female",
+        "Target": 0.74
+      },
+      {
+        "Decil": "male",
+        "Target": 0.19
+      }
+    ]
+  },
+  "encoding": {
+    "x": {
+      "axis": {
+        "labelFontSize": 9,
+        "labelOverlap": true,
+        "labels": true
+      },
+      "field": "Decil",
+      "sort": null,
+      "title": "Decil",
+      "type": "nominal"
+    },
+    "y": {
+      "axis": {
+        "labels": false
+      },
+      "field": "Target",
+      "title": "% Target",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_20",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Target mean per Decil",
+  "width": 350
+};
+            spec_decil_Sex.mark = { type: "bar", width: 20 }; 
+            spec_decil_Sex.layer = [
+              {
+                mark: { type: "bar", width: 20 },
+                encoding: spec_decil_Sex.encoding
+              },
+              {
+                mark: { type: "text", dy: -5 }, // Position the text above the bar
+                encoding: {
+                  text: { field: "Target", type: "quantitative" }, // Replace "value" with the field name for your bar values
+                  x: spec_decil_Sex.encoding.x,
+                  y: spec_decil_Sex.encoding.y
+                }
+              }
+            ];
+            const embedOpt_decil_Sex = { "actions": false };
+            vegaEmbed('#decil_graph_Sex', spec_decil_Sex, embedOpt_decil_Sex).catch(console.error);
+          </script>
+        </div>
+      </div>
+
+      <div class="container">
+
+
+        <div id="hist_time_graph_Sex"></div>
+        <script>
+          const spec_hist_time_Sex = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "legend": {
+      "orient": "top"
+    },
+    "title": {
+      "fontSize": 14
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-94f0c3a945d36e93f7a829bfa58a69ca"
+  },
+  "datasets": {
+    "data-94f0c3a945d36e93f7a829bfa58a69ca": [
+      {
+        "Count": 128,
+        "Date": "202309",
+        "Percentage": 65.64102564102564,
+        "Quintile": "male"
+      },
+      {
+        "Count": 152,
+        "Date": "202306",
+        "Percentage": 63.86554621848739,
+        "Quintile": "male"
+      },
+      {
+        "Count": 142,
+        "Date": "202307",
+        "Percentage": 63.11111111111111,
+        "Quintile": "male"
+      },
+      {
+        "Count": 155,
+        "Date": "202308",
+        "Percentage": 66.52360515021459,
+        "Quintile": "male"
+      },
+      {
+        "Count": 67,
+        "Date": "202309",
+        "Percentage": 34.35897435897436,
+        "Quintile": "female"
+      },
+      {
+        "Count": 86,
+        "Date": "202306",
+        "Percentage": 36.134453781512605,
+        "Quintile": "female"
+      },
+      {
+        "Count": 83,
+        "Date": "202307",
+        "Percentage": 36.888888888888886,
+        "Quintile": "female"
+      },
+      {
+        "Count": 78,
+        "Date": "202308",
+        "Percentage": 33.47639484978541,
+        "Quintile": "female"
+      }
+    ]
+  },
+  "encoding": {
+    "color": {
+      "field": "Quintile",
+      "title": "Legend",
+      "type": "nominal"
+    },
+    "x": {
+      "field": "Date",
+      "title": "Date",
+      "type": "nominal"
+    },
+    "y": {
+      "field": "Percentage",
+      "stack": "normalize",
+      "title": "Percentage",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_21",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Distribution Over Time",
+  "width": 800
+};
+          const embedOpt_hist_time_Sex = { "actions": false };
+          vegaEmbed('#hist_time_graph_Sex', spec_hist_time_Sex, embedOpt_hist_time_Sex).catch(console.error);
+        </script>
+
+      </div>
+      
+
+      <div class="container">
+
+        <h3> Age </h3>
+
+        <div class=".container-vertical">
+
+          <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Description</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>variable_type</td>
+      <td>float64</td>
+    </tr>
+    <tr>
+      <td>number_of_unique_values</td>
+      <td>88</td>
+    </tr>
+    <tr>
+      <td>number_of_missing</td>
+      <td>177</td>
+    </tr>
+    <tr>
+      <td>number_of_zeros</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>sum</td>
+      <td>21,205</td>
+    </tr>
+    <tr>
+      <td>mean</td>
+      <td>30</td>
+    </tr>
+    <tr>
+      <td>median</td>
+      <td>28</td>
+    </tr>
+    <tr>
+      <td>std</td>
+      <td>15</td>
+    </tr>
+  </tbody>
+</table>
+
+          <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Description</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>min</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>5%</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>25%</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <td>50%</td>
+      <td>28</td>
+    </tr>
+    <tr>
+      <td>75%</td>
+      <td>38</td>
+    </tr>
+    <tr>
+      <td>95%</td>
+      <td>56</td>
+    </tr>
+    <tr>
+      <td>max</td>
+      <td>80</td>
+    </tr>
+  </tbody>
+</table>
+
+        </div>
+
+        <div class=".container-vertical">
+
+          <div id="hist_graph_Age"></div>
+          <script>
+            const spec_hist_Age = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "title": {
+      "fontSize": 14
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-bf77a7056dddcc344862673c1f960fd8"
+  },
+  "datasets": {
+    "data-bf77a7056dddcc344862673c1f960fd8": [
+      {
+        "Count": 24,
+        "Interval": "0.3"
+      },
+      {
+        "Count": 6,
+        "Interval": "2.0"
+      },
+      {
+        "Count": 14,
+        "Interval": "3.6"
+      },
+      {
+        "Count": 3,
+        "Interval": "5.2"
+      },
+      {
+        "Count": 7,
+        "Interval": "6.8"
+      },
+      {
+        "Count": 8,
+        "Interval": "8.4"
+      },
+      {
+        "Count": 6,
+        "Interval": "10.0"
+      },
+      {
+        "Count": 3,
+        "Interval": "11.6"
+      },
+      {
+        "Count": 7,
+        "Interval": "13.2"
+      },
+      {
+        "Count": 22,
+        "Interval": "14.7"
+      },
+      {
+        "Count": 13,
+        "Interval": "16.3"
+      },
+      {
+        "Count": 51,
+        "Interval": "17.9"
+      },
+      {
+        "Count": 40,
+        "Interval": "19.5"
+      },
+      {
+        "Count": 27,
+        "Interval": "21.1"
+      },
+      {
+        "Count": 46,
+        "Interval": "22.7"
+      },
+      {
+        "Count": 24,
+        "Interval": "24.3"
+      },
+      {
+        "Count": 36,
+        "Interval": "25.9"
+      },
+      {
+        "Count": 47,
+        "Interval": "27.5"
+      },
+      {
+        "Count": 27,
+        "Interval": "29.1"
+      },
+      {
+        "Count": 35,
+        "Interval": "30.7"
+      },
+      {
+        "Count": 17,
+        "Interval": "32.3"
+      },
+      {
+        "Count": 34,
+        "Interval": "33.8"
+      },
+      {
+        "Count": 29,
+        "Interval": "35.4"
+      },
+      {
+        "Count": 11,
+        "Interval": "37.0"
+      },
+      {
+        "Count": 27,
+        "Interval": "38.6"
+      },
+      {
+        "Count": 8,
+        "Interval": "40.2"
+      },
+      {
+        "Count": 18,
+        "Interval": "41.8"
+      },
+      {
+        "Count": 9,
+        "Interval": "43.4"
+      },
+      {
+        "Count": 17,
+        "Interval": "45.0"
+      },
+      {
+        "Count": 18,
+        "Interval": "46.6"
+      },
+      {
+        "Count": 6,
+        "Interval": "48.2"
+      },
+      {
+        "Count": 17,
+        "Interval": "49.8"
+      },
+      {
+        "Count": 6,
+        "Interval": "51.4"
+      },
+      {
+        "Count": 9,
+        "Interval": "52.9"
+      },
+      {
+        "Count": 7,
+        "Interval": "54.5"
+      },
+      {
+        "Count": 2,
+        "Interval": "56.1"
+      },
+      {
+        "Count": 7,
+        "Interval": "57.7"
+      },
+      {
+        "Count": 4,
+        "Interval": "59.3"
+      },
+      {
+        "Count": 7,
+        "Interval": "60.9"
+      },
+      {
+        "Count": 4,
+        "Interval": "62.5"
+      },
+      {
+        "Count": 3,
+        "Interval": "64.1"
+      },
+      {
+        "Count": 1,
+        "Interval": "65.7"
+      },
+      {
+        "Count": 0,
+        "Interval": "67.3"
+      },
+      {
+        "Count": 2,
+        "Interval": "68.9"
+      },
+      {
+        "Count": 3,
+        "Interval": "70.5"
+      },
+      {
+        "Count": 0,
+        "Interval": "72.0"
+      },
+      {
+        "Count": 1,
+        "Interval": "73.6"
+      },
+      {
+        "Count": 0,
+        "Interval": "75.2"
+      },
+      {
+        "Count": 0,
+        "Interval": "76.8"
+      },
+      {
+        "Count": 1,
+        "Interval": "78.4"
+      }
+    ]
+  },
+  "encoding": {
+    "x": {
+      "axis": {
+        "labelFontSize": 9,
+        "labelOverlap": true,
+        "labels": true
+      },
+      "field": "Interval",
+      "sort": null,
+      "title": "",
+      "type": "nominal"
+    },
+    "y": {
+      "axis": {
+        "labels": false
+      },
+      "field": "Count",
+      "title": "Qty",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_22",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Histogram",
+  "width": 350
+};
+            spec_hist_Age.mark = { type: "bar", width: 15 }; // Set bar width
+            const embedOpt_hist_Age = { "actions": false };
+            vegaEmbed('#hist_graph_Age', spec_hist_Age, embedOpt_hist_Age).catch(console.error);
+          </script>
+
+          <br>
+
+          <div id="decil_graph_Age"></div>
+          <script>
+            const spec_decil_Age = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "title": {
+      "fontSize": 12
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-a4a16f00eede96d1a51660c48b6498a2"
+  },
+  "datasets": {
+    "data-a4a16f00eede96d1a51660c48b6498a2": [
+      {
+        "Decil": 0.0,
+        "Target": 0.58
+      },
+      {
+        "Decil": 1.0,
+        "Target": 0.39
+      },
+      {
+        "Decil": 2.0,
+        "Target": 0.28
+      },
+      {
+        "Decil": 3.0,
+        "Target": 0.37
+      },
+      {
+        "Decil": 4.0,
+        "Target": 0.39
+      },
+      {
+        "Decil": 5.0,
+        "Target": 0.39
+      },
+      {
+        "Decil": 6.0,
+        "Target": 0.48
+      },
+      {
+        "Decil": 7.0,
+        "Target": 0.36
+      },
+      {
+        "Decil": 8.0,
+        "Target": 0.4
+      },
+      {
+        "Decil": 9.0,
+        "Target": 0.34
+      }
+    ]
+  },
+  "encoding": {
+    "x": {
+      "axis": {
+        "labelFontSize": 9,
+        "labelOverlap": true,
+        "labels": true
+      },
+      "field": "Decil",
+      "sort": null,
+      "title": "Decil",
+      "type": "quantitative"
+    },
+    "y": {
+      "axis": {
+        "labels": false
+      },
+      "field": "Target",
+      "title": "% Target",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_23",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Target mean per Decil",
+  "width": 350
+};
+            spec_decil_Age.mark = { type: "bar", width: 20 }; 
+            spec_decil_Age.layer = [
+              {
+                mark: { type: "bar", width: 20 },
+                encoding: spec_decil_Age.encoding
+              },
+              {
+                mark: { type: "text", dy: -5 }, // Position the text above the bar
+                encoding: {
+                  text: { field: "Target", type: "quantitative" }, // Replace "value" with the field name for your bar values
+                  x: spec_decil_Age.encoding.x,
+                  y: spec_decil_Age.encoding.y
+                }
+              }
+            ];
+            const embedOpt_decil_Age = { "actions": false };
+            vegaEmbed('#decil_graph_Age', spec_decil_Age, embedOpt_decil_Age).catch(console.error);
+          </script>
+        </div>
+      </div>
+
+      <div class="container">
+
+
+        <div id="hist_time_graph_Age"></div>
+        <script>
+          const spec_hist_time_Age = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "legend": {
+      "orient": "top"
+    },
+    "title": {
+      "fontSize": 14
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-edab7947ab21d65fd730f569422ee3c9"
+  },
+  "datasets": {
+    "data-edab7947ab21d65fd730f569422ee3c9": [
+      {
+        "Count": 39,
+        "Date": "202309",
+        "Percentage": 23.636363636363637,
+        "Quintile": "<= 19.0"
+      },
+      {
+        "Count": 42,
+        "Date": "202306",
+        "Percentage": 23.204419889502763,
+        "Quintile": "<= 19.0"
+      },
+      {
+        "Count": 48,
+        "Date": "202307",
+        "Percentage": 26.519337016574585,
+        "Quintile": "<= 19.0"
+      },
+      {
+        "Count": 35,
+        "Date": "202308",
+        "Percentage": 18.71657754010695,
+        "Quintile": "<= 19.0"
+      },
+      {
+        "Count": 33,
+        "Date": "202309",
+        "Percentage": 20.0,
+        "Quintile": "<= 25.0"
+      },
+      {
+        "Count": 32,
+        "Date": "202306",
+        "Percentage": 17.67955801104972,
+        "Quintile": "<= 25.0"
+      },
+      {
+        "Count": 35,
+        "Date": "202307",
+        "Percentage": 19.337016574585636,
+        "Quintile": "<= 25.0"
+      },
+      {
+        "Count": 37,
+        "Date": "202308",
+        "Percentage": 19.786096256684495,
+        "Quintile": "<= 25.0"
+      },
+      {
+        "Count": 33,
+        "Date": "202309",
+        "Percentage": 20.0,
+        "Quintile": "<= 32.0"
+      },
+      {
+        "Count": 34,
+        "Date": "202306",
+        "Percentage": 18.784530386740332,
+        "Quintile": "<= 32.0"
+      },
+      {
+        "Count": 29,
+        "Date": "202307",
+        "Percentage": 16.022099447513813,
+        "Quintile": "<= 32.0"
+      },
+      {
+        "Count": 31,
+        "Date": "202308",
+        "Percentage": 16.577540106951872,
+        "Quintile": "<= 32.0"
+      },
+      {
+        "Count": 31,
+        "Date": "202309",
+        "Percentage": 18.787878787878785,
+        "Quintile": "<= 41.0"
+      },
+      {
+        "Count": 35,
+        "Date": "202306",
+        "Percentage": 19.337016574585636,
+        "Quintile": "<= 41.0"
+      },
+      {
+        "Count": 33,
+        "Date": "202307",
+        "Percentage": 18.23204419889503,
+        "Quintile": "<= 41.0"
+      },
+      {
+        "Count": 45,
+        "Date": "202308",
+        "Percentage": 24.06417112299465,
+        "Quintile": "<= 41.0"
+      },
+      {
+        "Count": 29,
+        "Date": "202309",
+        "Percentage": 17.575757575757574,
+        "Quintile": "> 41.0"
+      },
+      {
+        "Count": 38,
+        "Date": "202306",
+        "Percentage": 20.994475138121548,
+        "Quintile": "> 41.0"
+      },
+      {
+        "Count": 36,
+        "Date": "202307",
+        "Percentage": 19.88950276243094,
+        "Quintile": "> 41.0"
+      },
+      {
+        "Count": 39,
+        "Date": "202308",
+        "Percentage": 20.855614973262032,
+        "Quintile": "> 41.0"
+      }
+    ]
+  },
+  "encoding": {
+    "color": {
+      "field": "Quintile",
+      "title": "Legend",
+      "type": "nominal"
+    },
+    "x": {
+      "field": "Date",
+      "title": "Date",
+      "type": "nominal"
+    },
+    "y": {
+      "field": "Percentage",
+      "stack": "normalize",
+      "title": "Percentage",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_24",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Distribution Over Time",
+  "width": 800
+};
+          const embedOpt_hist_time_Age = { "actions": false };
+          vegaEmbed('#hist_time_graph_Age', spec_hist_time_Age, embedOpt_hist_time_Age).catch(console.error);
+        </script>
+
+      </div>
+      
+
+      <div class="container">
+
+        <h3> Embarked </h3>
+
+        <div class=".container-vertical">
+
+          <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Description</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>variable_type</td>
+      <td>object</td>
+    </tr>
+    <tr>
+      <td>number_of_missing</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>number_of_unique_values</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>number_per_values</td>
+      <td>{'S': 644, 'C': 168, 'Q': 77}</td>
+    </tr>
+    <tr>
+      <td>unique_values</td>
+      <td>['S', 'C', 'Q', nan]</td>
+    </tr>
+  </tbody>
+</table>
+
+          <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Description</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>min</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>5%</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>25%</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>50%</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>75%</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>95%</td>
+      <td>cat feat</td>
+    </tr>
+    <tr>
+      <td>max</td>
+      <td>cat feat</td>
+    </tr>
+  </tbody>
+</table>
+
+        </div>
+
+        <div class=".container-vertical">
+
+          <div id="hist_graph_Embarked"></div>
+          <script>
+            const spec_hist_Embarked = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "title": {
+      "fontSize": 14
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-99b40f9fa3c3c29364962424e97fc20c"
+  },
+  "datasets": {
+    "data-99b40f9fa3c3c29364962424e97fc20c": [
+      {
+        "Count": 168,
+        "Interval": "C"
+      },
+      {
+        "Count": 77,
+        "Interval": "Q"
+      },
+      {
+        "Count": 644,
+        "Interval": "S"
+      }
+    ]
+  },
+  "encoding": {
+    "x": {
+      "axis": {
+        "labelFontSize": 9,
+        "labelOverlap": true,
+        "labels": true
+      },
+      "field": "Interval",
+      "sort": null,
+      "title": "",
+      "type": "nominal"
+    },
+    "y": {
+      "axis": {
+        "labels": false
+      },
+      "field": "Count",
+      "title": "Qty",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_25",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Histogram",
+  "width": 350
+};
+            spec_hist_Embarked.mark = { type: "bar", width: 15 }; // Set bar width
+            const embedOpt_hist_Embarked = { "actions": false };
+            vegaEmbed('#hist_graph_Embarked', spec_hist_Embarked, embedOpt_hist_Embarked).catch(console.error);
+          </script>
+
+          <br>
+
+          <div id="decil_graph_Embarked"></div>
+          <script>
+            const spec_decil_Embarked = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "title": {
+      "fontSize": 12
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-7a0154558d0ae75d3566319a5237c4c7"
+  },
+  "datasets": {
+    "data-7a0154558d0ae75d3566319a5237c4c7": [
+      {
+        "Decil": "C",
+        "Target": 0.55
+      },
+      {
+        "Decil": "Q",
+        "Target": 0.39
+      },
+      {
+        "Decil": "S",
+        "Target": 0.34
+      }
+    ]
+  },
+  "encoding": {
+    "x": {
+      "axis": {
+        "labelFontSize": 9,
+        "labelOverlap": true,
+        "labels": true
+      },
+      "field": "Decil",
+      "sort": null,
+      "title": "Decil",
+      "type": "nominal"
+    },
+    "y": {
+      "axis": {
+        "labels": false
+      },
+      "field": "Target",
+      "title": "% Target",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_26",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Target mean per Decil",
+  "width": 350
+};
+            spec_decil_Embarked.mark = { type: "bar", width: 20 }; 
+            spec_decil_Embarked.layer = [
+              {
+                mark: { type: "bar", width: 20 },
+                encoding: spec_decil_Embarked.encoding
+              },
+              {
+                mark: { type: "text", dy: -5 }, // Position the text above the bar
+                encoding: {
+                  text: { field: "Target", type: "quantitative" }, // Replace "value" with the field name for your bar values
+                  x: spec_decil_Embarked.encoding.x,
+                  y: spec_decil_Embarked.encoding.y
+                }
+              }
+            ];
+            const embedOpt_decil_Embarked = { "actions": false };
+            vegaEmbed('#decil_graph_Embarked', spec_decil_Embarked, embedOpt_decil_Embarked).catch(console.error);
+          </script>
+        </div>
+      </div>
+
+      <div class="container">
+
+
+        <div id="hist_time_graph_Embarked"></div>
+        <script>
+          const spec_hist_time_Embarked = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "legend": {
+      "orient": "top"
+    },
+    "title": {
+      "fontSize": 14
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-837ca78ce372492941988c81190814ce"
+  },
+  "datasets": {
+    "data-837ca78ce372492941988c81190814ce": [
+      {
+        "Count": 144.0,
+        "Date": "202309",
+        "Percentage": 74.22680412371135,
+        "Quintile": "S"
+      },
+      {
+        "Count": 171.0,
+        "Date": "202306",
+        "Percentage": 71.84873949579831,
+        "Quintile": "S"
+      },
+      {
+        "Count": 160.0,
+        "Date": "202307",
+        "Percentage": 71.42857142857143,
+        "Quintile": "S"
+      },
+      {
+        "Count": 169.0,
+        "Date": "202308",
+        "Percentage": 72.53218884120172,
+        "Quintile": "S"
+      },
+      {
+        "Count": 37.0,
+        "Date": "202309",
+        "Percentage": 19.072164948453608,
+        "Quintile": "C"
+      },
+      {
+        "Count": 37.0,
+        "Date": "202306",
+        "Percentage": 15.546218487394958,
+        "Quintile": "C"
+      },
+      {
+        "Count": 46.0,
+        "Date": "202307",
+        "Percentage": 20.535714285714285,
+        "Quintile": "C"
+      },
+      {
+        "Count": 48.0,
+        "Date": "202308",
+        "Percentage": 20.600858369098713,
+        "Quintile": "C"
+      },
+      {
+        "Count": 13.0,
+        "Date": "202309",
+        "Percentage": 6.701030927835052,
+        "Quintile": "Q"
+      },
+      {
+        "Count": 30.0,
+        "Date": "202306",
+        "Percentage": 12.605042016806722,
+        "Quintile": "Q"
+      },
+      {
+        "Count": 18.0,
+        "Date": "202307",
+        "Percentage": 8.035714285714286,
+        "Quintile": "Q"
+      },
+      {
+        "Count": 16.0,
+        "Date": "202308",
+        "Percentage": 6.866952789699571,
+        "Quintile": "Q"
+      },
+      {
+        "Count": 0.0,
+        "Date": "202309",
+        "Percentage": 0.0,
+        "Quintile": null
+      },
+      {
+        "Count": null,
+        "Date": "202306",
+        "Percentage": null,
+        "Quintile": null
+      },
+      {
+        "Count": 0.0,
+        "Date": "202307",
+        "Percentage": 0.0,
+        "Quintile": null
+      },
+      {
+        "Count": null,
+        "Date": "202308",
+        "Percentage": null,
+        "Quintile": null
+      }
+    ]
+  },
+  "encoding": {
+    "color": {
+      "field": "Quintile",
+      "title": "Legend",
+      "type": "nominal"
+    },
+    "x": {
+      "field": "Date",
+      "title": "Date",
+      "type": "nominal"
+    },
+    "y": {
+      "field": "Percentage",
+      "stack": "normalize",
+      "title": "Percentage",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_27",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Distribution Over Time",
+  "width": 800
+};
+          const embedOpt_hist_time_Embarked = { "actions": false };
+          vegaEmbed('#hist_time_graph_Embarked', spec_hist_time_Embarked, embedOpt_hist_time_Embarked).catch(console.error);
+        </script>
+
+      </div>
+      
+
+      <div class="container">
+
+        <h3> Pclass </h3>
+
+        <div class=".container-vertical">
+
+          <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Description</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>variable_type</td>
+      <td>int64</td>
+    </tr>
+    <tr>
+      <td>number_of_unique_values</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>number_of_missing</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>number_of_zeros</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>sum</td>
+      <td>2,057</td>
+    </tr>
+    <tr>
+      <td>mean</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>median</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>std</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+
+          <table class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Description</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>min</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>5%</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>25%</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>50%</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>75%</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>95%</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>max</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+
+        </div>
+
+        <div class=".container-vertical">
+
+          <div id="hist_graph_Pclass"></div>
+          <script>
+            const spec_hist_Pclass = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "title": {
+      "fontSize": 14
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-a64db3ee0786ede81e4e42e35fc8e5b1"
+  },
+  "datasets": {
+    "data-a64db3ee0786ede81e4e42e35fc8e5b1": [
+      {
+        "Count": 216,
+        "Interval": 1
+      },
+      {
+        "Count": 184,
+        "Interval": 2
+      },
+      {
+        "Count": 491,
+        "Interval": 3
+      }
+    ]
+  },
+  "encoding": {
+    "x": {
+      "axis": {
+        "labelFontSize": 9,
+        "labelOverlap": true,
+        "labels": true
+      },
+      "field": "Interval",
+      "sort": null,
+      "title": "",
+      "type": "quantitative"
+    },
+    "y": {
+      "axis": {
+        "labels": false
+      },
+      "field": "Count",
+      "title": "Qty",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_28",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Histogram",
+  "width": 350
+};
+            spec_hist_Pclass.mark = { type: "bar", width: 15 }; // Set bar width
+            const embedOpt_hist_Pclass = { "actions": false };
+            vegaEmbed('#hist_graph_Pclass', spec_hist_Pclass, embedOpt_hist_Pclass).catch(console.error);
+          </script>
+
+          <br>
+
+          <div id="decil_graph_Pclass"></div>
+          <script>
+            const spec_decil_Pclass = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "title": {
+      "fontSize": 12
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-d0c40bc25f31cf18327c5777c3cf76a1"
+  },
+  "datasets": {
+    "data-d0c40bc25f31cf18327c5777c3cf76a1": [
+      {
+        "Decil": 1,
+        "Target": 0.63
+      },
+      {
+        "Decil": 2,
+        "Target": 0.47
+      },
+      {
+        "Decil": 3,
+        "Target": 0.24
+      }
+    ]
+  },
+  "encoding": {
+    "x": {
+      "axis": {
+        "labelFontSize": 9,
+        "labelOverlap": true,
+        "labels": true
+      },
+      "field": "Decil",
+      "sort": null,
+      "title": "Decil",
+      "type": "quantitative"
+    },
+    "y": {
+      "axis": {
+        "labels": false
+      },
+      "field": "Target",
+      "title": "% Target",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_29",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Target mean per Decil",
+  "width": 350
+};
+            spec_decil_Pclass.mark = { type: "bar", width: 20 }; 
+            spec_decil_Pclass.layer = [
+              {
+                mark: { type: "bar", width: 20 },
+                encoding: spec_decil_Pclass.encoding
+              },
+              {
+                mark: { type: "text", dy: -5 }, // Position the text above the bar
+                encoding: {
+                  text: { field: "Target", type: "quantitative" }, // Replace "value" with the field name for your bar values
+                  x: spec_decil_Pclass.encoding.x,
+                  y: spec_decil_Pclass.encoding.y
+                }
+              }
+            ];
+            const embedOpt_decil_Pclass = { "actions": false };
+            vegaEmbed('#decil_graph_Pclass', spec_decil_Pclass, embedOpt_decil_Pclass).catch(console.error);
+          </script>
+        </div>
+      </div>
+
+      <div class="container">
+
+
+        <div id="hist_time_graph_Pclass"></div>
+        <script>
+          const spec_hist_time_Pclass = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json",
+  "config": {
+    "axis": {
+      "labelAngle": 45
+    },
+    "legend": {
+      "orient": "top"
+    },
+    "title": {
+      "fontSize": 14
+    },
+    "view": {
+      "continuousHeight": 300,
+      "continuousWidth": 300
+    }
+  },
+  "data": {
+    "name": "data-5e28fdfee55c29e09568e74a78813fa5"
+  },
+  "datasets": {
+    "data-5e28fdfee55c29e09568e74a78813fa5": [
+      {
+        "Count": 106,
+        "Date": "202309",
+        "Percentage": 54.35897435897436,
+        "Quintile": 3
+      },
+      {
+        "Count": 128,
+        "Date": "202306",
+        "Percentage": 53.78151260504202,
+        "Quintile": 3
+      },
+      {
+        "Count": 133,
+        "Date": "202307",
+        "Percentage": 59.111111111111114,
+        "Quintile": 3
+      },
+      {
+        "Count": 124,
+        "Date": "202308",
+        "Percentage": 53.21888412017167,
+        "Quintile": 3
+      },
+      {
+        "Count": 43,
+        "Date": "202309",
+        "Percentage": 22.05128205128205,
+        "Quintile": 1
+      },
+      {
+        "Count": 62,
+        "Date": "202306",
+        "Percentage": 26.05042016806723,
+        "Quintile": 1
+      },
+      {
+        "Count": 55,
+        "Date": "202307",
+        "Percentage": 24.444444444444443,
+        "Quintile": 1
+      },
+      {
+        "Count": 56,
+        "Date": "202308",
+        "Percentage": 24.034334763948497,
+        "Quintile": 1
+      },
+      {
+        "Count": 46,
+        "Date": "202309",
+        "Percentage": 23.589743589743588,
+        "Quintile": 2
+      },
+      {
+        "Count": 48,
+        "Date": "202306",
+        "Percentage": 20.168067226890756,
+        "Quintile": 2
+      },
+      {
+        "Count": 37,
+        "Date": "202307",
+        "Percentage": 16.444444444444446,
+        "Quintile": 2
+      },
+      {
+        "Count": 53,
+        "Date": "202308",
+        "Percentage": 22.746781115879827,
+        "Quintile": 2
+      }
+    ]
+  },
+  "encoding": {
+    "color": {
+      "field": "Quintile",
+      "title": "Legend",
+      "type": "quantitative"
+    },
+    "x": {
+      "field": "Date",
+      "title": "Date",
+      "type": "nominal"
+    },
+    "y": {
+      "field": "Percentage",
+      "stack": "normalize",
+      "title": "Percentage",
+      "type": "quantitative"
+    }
+  },
+  "height": 200,
+  "mark": {
+    "type": "bar"
+  },
+  "params": [
+    {
+      "bind": "scales",
+      "name": "param_30",
+      "select": {
+        "encodings": [
+          "x",
+          "y"
+        ],
+        "type": "interval"
+      }
+    }
+  ],
+  "title": "Distribution Over Time",
+  "width": 800
+};
+          const embedOpt_hist_time_Pclass = { "actions": false };
+          vegaEmbed('#hist_time_graph_Pclass', spec_hist_time_Pclass, embedOpt_hist_time_Pclass).catch(console.error);
+        </script>
+
+      </div>
+      
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Exploratory Data Analysis with Sandy. All rights reserved.</p>
+  </footer>
+
+</body>
+
+</html>
