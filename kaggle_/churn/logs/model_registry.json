@@ -1,0 +1,46 @@
+[
+  {
+    "timestamp": "20260315_221412",
+    "model_name": "model_v0_0_0",
+    "model_version": "model_v0_0_0_20260315_221412",
+    "model_pipeline_version": "mdl_v0_0_0",
+    "feature_engineering_version": "fe_v0_0_0",
+    "model_evaluation_version": "ev_v0_0_0",
+    "model_file": "model_packages/model_v0_0_0_20260315_221412/model_v0_0_0.joblib",
+    "metrics": {
+      "train": {
+        "roc_auc": 0.889656171395059,
+        "precision": 0.637406581297598,
+        "recall": 0.6709006388371854,
+        "f1": 0.6537248683035307
+      },
+      "test": {
+        "roc_auc": 0.8904921371113779,
+        "precision": 0.6421261376111053,
+        "recall": 0.6739889979185252,
+        "f1": 0.6576718713163956
+      }
+    },
+    "features": [
+      "gender",
+      "SeniorCitizen",
+      "Partner",
+      "Dependents",
+      "tenure",
+      "PhoneService",
+      "MultipleLines",
+      "InternetService",
+      "OnlineSecurity",
+      "OnlineBackup",
+      "DeviceProtection",
+      "TechSupport",
+      "StreamingTV",
+      "StreamingMovies",
+      "Contract",
+      "PaperlessBilling",
+      "PaymentMethod",
+      "MonthlyCharges",
+      "TotalCharges"
+    ]
+  }
+]
